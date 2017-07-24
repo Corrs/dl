@@ -28,17 +28,17 @@
             <cell class="weui-cell" title="银行卡" value="未绑定" link="/component/radio">
               <img class="icon" src="../../images/icon/bank_card.png" slot="icon" alt="">
             </cell>
-            <cell class="weui-cell" title="推广" link="/component/radio">
+            <cell class="weui-cell" title="推广" link="/spread">
               <img class="icon" src="../../images/icon/qr_code.png" slot="icon" alt="">
             </cell>
-            <cell class="weui-cell" title="联系客服" link="/component/radio">
+            <cell class="weui-cell" title="联系客服" link="/contact">
               <img class="icon" src="../../images/icon/contact.png" slot="icon" alt="">
             </cell>
-            <cell class="weui-cell" title="佣金规则" link="/component/radio">
-              <img class="icon" src="../../images/icon/cash2.png" slot="icon" alt="">
+            <cell class="weui-cell" title="佣金规则" link="/rebate">
+              <img class="icon" src="../../images/icon/question.png" slot="icon" alt="">
             </cell>
-            <cell class="weui-cell" title="代理升降级规则" link="/component/radio">
-              <img class="icon" src="../../images/icon/cash2.png" slot="icon" alt="">
+            <cell class="weui-cell" title="代理升降级规则" link="/proxyLift">
+              <img class="icon" src="../../images/icon/question.png" slot="icon" alt="">
             </cell>
           </group>
         </div>
@@ -136,4 +136,5 @@
   .type {
     color: #A3CDED;
   }
+
 </style>

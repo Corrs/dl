@@ -2,13 +2,18 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use (Router)
-const Home = resolve => require (['@/page/home/home'], resolve);
-const Statistics = resolve => require (['@/page/statistics/statistics'], resolve);
-const msginfo = resolve => require (['@/page/msg/msginfo'], resolve);
-const msg = resolve => require (['@/page/msg/msg'], resolve);
-const profile = resolve => require (['@/page/profile/profile'], resolve);
-const cash = resolve => require (['@/page/profile/cash'], resolve);
-const proxy = resolve => require (['@/page/proxy/proxy'], resolve);
+const Home = resolve => require (['@/page/home/home'], resolve)
+const Statistics = resolve => require (['@/page/statistics/statistics'], resolve)
+const msginfo = resolve => require (['@/page/msg/msginfo'], resolve)
+const msg = resolve => require (['@/page/msg/msg'], resolve)
+const profile = resolve => require (['@/page/profile/profile'], resolve)
+const cash = resolve => require (['@/page/profile/cash'], resolve)
+const spread = resolve => require (['@/page/profile/spread'], resolve)
+const contact = resolve => require (['@/page/profile/contact'], resolve)
+const rebate = resolve => require (['@/page/profile/rebate'], resolve)
+const proxyLift = resolve => require (['@/page/profile/proxyLift'], resolve)
+const proxy = resolve => require (['@/page/proxy/proxy'], resolve)
+const appendProxy = resolve => require (['@/page/proxy/appendProxy'], resolve)
 export default new Router ({
   mode: 'history',
   routes: [
@@ -43,9 +48,34 @@ export default new Router ({
       component: cash
     },
     {
+      path: '/spread',
+      name: 'spread',
+      component: spread
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: contact
+    },
+    {
+      path: '/rebate',
+      name: 'rebate',
+      component: rebate
+    },
+    {
+      path: '/proxyLift',
+      name: 'proxyLift',
+      component: proxyLift
+    },
+    {
       path: '/proxy',
       name: 'proxy',
       component: proxy
+    },
+    {
+      path: '/appendProxy',
+      name: 'appendProxy',
+      component: appendProxy
     }
   ]
 })
