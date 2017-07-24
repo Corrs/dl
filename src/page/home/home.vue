@@ -43,7 +43,7 @@
           <img slot="icon" src="../../images/icon/statistics.png">
           <span slot="label">数据统计</span>
         </grid-item>
-        <grid-item :link="{ path: '/component/cell'}" label="消费排行榜">
+        <grid-item :link="{ path: '/consume'}" label="消费排行榜">
           <img slot="icon" src="../../images/icon/ranking.png">
           <span slot="label">消费排行榜</span>
         </grid-item>

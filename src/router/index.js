@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use (Router)
 const Home = resolve => require (['@/page/home/home'], resolve)
 const Statistics = resolve => require (['@/page/statistics/statistics'], resolve)
+const consume = resolve => require (['@/page/statistics/consume'], resolve)
 const msginfo = resolve => require (['@/page/msg/msginfo'], resolve)
 const msg = resolve => require (['@/page/msg/msg'], resolve)
 const profile = resolve => require (['@/page/profile/profile'], resolve)
@@ -27,6 +28,11 @@ export default new Router ({
       path: '/Statistics',
       name: 'Statistics',
       component: Statistics
+    },
+    {
+      path: '/consume',
+      name: 'consume',
+      component: consume
     },
     {
       path: '/msg',
