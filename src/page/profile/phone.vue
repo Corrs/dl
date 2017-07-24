@@ -5,7 +5,10 @@
         <cell class="weui-cell" title="手机号" value="189****6689"></cell>
       </group>
       <div class="btn">
-        <x-button link="/profile" type="primary">更换手机号</x-button>
+        <x-button>更换手机号</x-button>
+      </div>
+      <div class="text">
+        <p>一个手机号只能绑定一个账号，如需解绑请联系客服；请确保之前绑定手机能够收到短信，若原手机号已无法使用，请联系客服人工解决。</p>
       </div>
     </div>
   </div>
@@ -14,6 +17,7 @@
 <script>
   import {XInput, Group, Cell, XButton} from 'vux'
   import {mapMutations} from 'vuex'
+
   export default {
     name: 'phone',
     data () {
@@ -62,6 +66,22 @@
   }
 
   .btn {
-    margin: 1.5rem 1rem .5rem 1rem;
+    margin: 1rem .5rem .5rem .5rem;
+  }
+
+  button {
+    background-color: #1B82D2;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: #FFFFFF;
+    font-size: .7rem;
+  }
+
+  .text {
+    background: #FFFFFF;
+    margin-top: .5rem;
+    padding: 0 .5rem;
+    font-size: .7rem;
+    color: #888888;
   }
 </style>

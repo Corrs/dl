@@ -31,7 +31,7 @@
           <img slot="icon" src="../../images/icon/proxy2.png">
           <span slot="label">代理升降级</span>
         </grid-item>
-        <grid-item :link="{ path: '/component/cell'}" label="提现管理">
+        <grid-item :link="{ path: '/cash'}" label="提现管理">
           <img slot="icon" src="../../images/icon/cash.png">
           <span slot="label">提现管理</span>
         </grid-item>
