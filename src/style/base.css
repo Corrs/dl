@@ -1,0 +1,111 @@
+@charset "utf-8";
+
+html {
+  font-size: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "Pingfang SC", "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+i, a {
+  color: #000 !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+.border-1px-r {
+  border-right: 1px solid #fff;
+}
+
+.basefont {
+  color: #000;
+  font-size: .4rem;
+}
+
+.vux-pop-out-enter-active,
+.vux-pop-out-leave-active,
+.vux-pop-in-enter-active,
+.vux-pop-in-leave-active {
+  will-change: transform;
+  transition: all 500ms;
+  height: 100%;
+  /*top: 46px;*/
+  position: absolute;
+  backface-visibility: hidden;
+  /*perspective: 1000;*/
+}
+
+.vux-pop-out-enter {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.vux-pop-out-leave-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.vux-pop-in-enter {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.vux-pop-in-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.overwrite-title-demo {
+  font-size: .7rem;
+  line-height: 46px;
+  text-align: center;
+}
+
+.header {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.fotter {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.vux-header {
+  background: #F8F8F8 !important;
+}
+
+.vux-header, .vux-header-left, .vux-header-title, .vux-header-right {
+  color: #000 !important;
+  margin: 0 !important;
+}
+
+.left-arrow:before {
+  border-left: 1px solid #000 !important;
+  border-top: 1px solid #000 !important;
+}
+
+/*@media (max-width: 320px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 767px) {
+  html {
+    font-size: 23px;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+  html {
+    font-size: 30px;
+  }
+}*/
