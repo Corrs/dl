@@ -22,7 +22,7 @@
             <cell class="weui-cell" title="身份证" value="已绑定" link="/component/radio">
               <img class="icon" src="../../images/icon/id_card.png" slot="icon" alt="">
             </cell>
-            <cell class="weui-cell" title="手机号" value="189****6689" link="/component/radio">
+            <cell class="weui-cell" title="手机号" value="189****6689" link="/phone">
               <img class="icon" src="../../images/icon/phone.png" slot="icon" alt="">
             </cell>
             <cell class="weui-cell" title="银行卡" value="未绑定" link="/component/radio">

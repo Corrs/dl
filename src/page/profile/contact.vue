@@ -23,7 +23,9 @@
             <span>内容：</span>
           </div>
         </x-textarea>
-        <x-button link="/profile">提交</x-button>
+        <div class="btn">
+          <x-button :mini="true" link="/profile">提交</x-button>
+        </div>
       </group>
     </div>
   </div>
@@ -88,4 +90,10 @@
     color: #000000;
     font-size: .7rem;
   }
+
+  .btn {
+    text-align: center;
+    margin-bottom: .5rem;
+  }
+  
 </style>

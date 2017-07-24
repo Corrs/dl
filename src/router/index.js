@@ -8,6 +8,7 @@ const msginfo = resolve => require (['@/page/msg/msginfo'], resolve)
 const msg = resolve => require (['@/page/msg/msg'], resolve)
 const profile = resolve => require (['@/page/profile/profile'], resolve)
 const cash = resolve => require (['@/page/profile/cash'], resolve)
+const phone = resolve => require (['@/page/profile/phone'], resolve)
 const spread = resolve => require (['@/page/profile/spread'], resolve)
 const contact = resolve => require (['@/page/profile/contact'], resolve)
 const rebate = resolve => require (['@/page/profile/rebate'], resolve)
@@ -46,6 +47,11 @@ export default new Router ({
       path: '/cash',
       name: 'cash',
       component: cash
+    },
+    {
+      path: '/phone',
+      name: 'phone',
+      component: phone
     },
     {
       path: '/spread',
