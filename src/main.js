@@ -23,16 +23,6 @@ Vue.config.productionTip = false
 
 Vue.component ('top-bar', topbar)
 
-router.beforeEach (function (to, from, next) {
-  console.log (to.path)
-  if (to.path.indexOf ('/msginfo') != -1) {
-    store.commit ('UPDATE_SHOW_FOTTER', {isShowFotter: false})
-  } else {
-    store.commit ('UPDATE_SHOW_FOTTER', {isShowFotter: true})
-  }
-  next ()
-})
-//
 // router.afterEach(function (to) {
 //   store.commit('updateLoadingStatus', {isLoading: false})
 //   if (process.env.NODE_ENV === 'production') {
@@ -41,6 +31,20 @@ router.beforeEach (function (to, from, next) {
 //   }
 // })
 sync(store, router)
+
+router.beforeEach(function (to, from, next) {
+  if (to.path.indexOf ('/msginfo') != -1) {
+    store.commit ('UPDATE_SHOW_FOTTER', {isShowFotter: false})
+  } else {
+    store.commit ('UPDATE_SHOW_FOTTER', {isShowFotter: true})
+  }
+  store.commit('UPDATE_LOADING', {isLoading: true})
+  next()
+})
+
+router.afterEach(function (to) {
+  store.commit('UPDATE_LOADING', {isLoading: false})
+})
 /* eslint-disable no-new */
 new Vue ({
   store,

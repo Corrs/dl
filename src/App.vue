@@ -1,22 +1,26 @@
 <template>
   <div style="height:100%;">
+    <loading v-model="isLoading"></loading>
     <view-box ref="viewBox" :body-padding-top="headerConfig.paddingTop" body-padding-bottom="50px">
       <top-bar slot="header" :backText="headerConfig.backText" :showBack="headerConfig.showBack"
                :title="headerConfig.title" :backUrl="headerConfig.backUrl" :showMsgtip="headerConfig.showMsgtip">
         <a slot="rightContent" v-if="headerConfig.showRight">
-          <i class="fa fa-plus"></i>
+          <i class="fa fa-plus" @click="appendProxy" v-if="headerConfig.rightType == 'appendProxy'"></i>
+          <i class="fa fa-plus" @click="appendBankCard" v-if="headerConfig.rightType == 'appendBankCard'"></i>
+          <i class="fa fa-question-circle-o" v-if="headerConfig.rightType == 'question'"></i>
         </a>
       </top-bar>
-      <transition name="vux-pop-in">
+      <!--<transition name="vux-pop-in">
         <router-view></router-view>
-      </transition>
+      </transition>-->
+      <router-view></router-view>
       <bar slot="bottom" v-if="isShowFotter"></bar>
     </view-box>
   </div>
 </template>
 
 <script>
-  import {ViewBox} from 'vux'
+  import {ViewBox, Loading } from 'vux'
   import bar from './components/footer/footer.vue'
   import {mapState} from 'vuex'
 
@@ -24,13 +28,23 @@
     name: 'App',
     components: {
       bar,
-      ViewBox
+      ViewBox,
+      Loading
     },
     computed: {
       ...mapState ({
         isShowFotter: state => state.isShowFotter,
-        headerConfig: state => state.headerConfig
+        headerConfig: state => state.headerConfig,
+        isLoading: state => state.isLoading
       })
+    },
+    methods: {
+      appendProxy() {
+        this.$router.push('/appendProxy')
+      },
+      appendBankCard() {
+        this.$router.push('/appendBankCard')
+      }
     }
   }
 </script>

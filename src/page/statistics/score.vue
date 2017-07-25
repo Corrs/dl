@@ -1,44 +1,61 @@
 <template>
-  <!--消费排行-->
+  <!--业绩排行榜-->
   <div>
-    <div>
-      <div class="search">
-        <group>
-          <x-input placeholder="输入昵称" v-model="search" :show-clear="false">
-            <div slot="right">
-              <a @click="onSearch"><i class="fa fa-search"></i></a>
-            </div>
-          </x-input>
-        </group>
-      </div>
-      <div class="result">
-        <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
-                  :scroll-bottom-offst="200">
-          <group>
-            <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index">
-              <div slot="title">
-                <p class="index" v-text="index+1"></p>
-                <p v-text="item.name"></p>
-              </div>
-              <div slot="value">
-                <span v-text="item.consume"></span>
-              </div>
-            </cell>
-          </group>
-          <load-more :tip="tip" v-if="isShowLoading"></load-more>
-          <p v-if="!isShowLoading" v-text="tip" class="no-more"></p>
-        </scroller>
-      </div>
+    <div class="search">
+      <group>
+        <x-input placeholder="输入昵称" v-model="search" :show-clear="false">
+          <div slot="right">
+            <a @click="onSearch"><i class="fa fa-search"></i></a>
+          </div>
+        </x-input>
+      </group>
+    </div>
+    <div class="tab">
+      <tab :line-width=2 active-color="#fc378c" v-model="index">
+        <tab-item class="vux-center">
+          <img class="icon" src="../../images/icon/all.png" alt="">
+        </tab-item>
+        <tab-item class="vux-center">
+          <img class="icon" src="../../images/icon/one.png" alt="">
+        </tab-item>
+        <tab-item class="vux-center">
+          <img class="icon" src="../../images/icon/two.png" alt="">
+        </tab-item>
+      </tab>
+    </div>
+    <div class="result">
+      <swiper v-model="index" :height="height" :show-dots="false">
+        <swiper-item>
+          <div class="tab-swiper vux-center">
+            <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
+                      :scroll-bottom-offst="200">
+              <group>
+                <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index">
+                  <div slot="title">
+                    <p class="index" v-text="index+1"></p>
+                    <p v-text="item.name"></p>
+                  </div>
+                  <div slot="value">
+                    <span v-text="item.consume"></span>
+                  </div>
+                </cell>
+              </group>
+              <load-more :tip="tip" v-if="isShowLoading"></load-more>
+              <p v-if="!isShowLoading" v-text="tip" class="no-more"></p>
+            </scroller>
+          </div>
+        </swiper-item>
+      </swiper>
     </div>
   </div>
 </template>
 
 <script>
-  import {Cell, Group, Scroller, LoadMore, XInput} from 'vux'
+  import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem, Swiper, SwiperItem} from 'vux'
   import {mapMutations} from 'vuex'
 
   export default {
-    name: 'hello',
+    name: 'score',
     data () {
       return {
         data: [{
@@ -77,7 +94,8 @@
         }],
         bottomCount: 20,
         total: 11,
-        search: ''
+        search: '',
+        index: 0
       }
     },
     components: {
@@ -85,7 +103,11 @@
       Group,
       Scroller,
       LoadMore,
-      XInput
+      XInput,
+      Tab,
+      TabItem,
+      Swiper,
+      SwiperItem
     },
     computed: {
       formatDatas () {
@@ -95,12 +117,12 @@
         })
       },
       height () {
-        return (window.document.body.clientHeight - 95) + 'px'
+        return (window.document.body.clientHeight - 160) + 'px'
       },
-      isShowLoading() {
+      isShowLoading () {
         return this.total > this.bottomCount
       },
-      tip() {
+      tip () {
         return this.total > this.bottomCount ? '查询更多' : '无其他数据'
       }
     },
@@ -152,8 +174,8 @@
           }, 2000)
         }
       },
-      onSearch() {
-        console.log(this.search)
+      onSearch () {
+        console.log (this.search)
       }
     }
   }
@@ -180,4 +202,13 @@
     text-align: center;
   }
 
+  .icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .tab {
+    height: 2.5rem;
+    margin-top: .5rem;
+  }
 </style>

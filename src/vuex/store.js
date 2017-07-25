@@ -14,14 +14,15 @@ const state = {
     backUrl: '/',
     showMsgtip: false,
     showRight: false,
-    paddingTop: '45px'
+    paddingTop: '45px',
+    rightType: 'appendProxy'
   }
 }
 export default new Vuex.Store({
   state,
   mutations: {
     UPDATE_LOADING (state, payload) {
-      state.isLoading = payload.status
+      state.isLoading = payload.isLoading
     },
     UPDATE_DIRECTION (state, payload) {
       state.direction = payload.direction

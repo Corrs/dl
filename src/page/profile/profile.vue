@@ -19,13 +19,13 @@
             </cell>
           </group>
           <group>
-            <cell class="weui-cell" title="身份证" value="已绑定" link="/component/radio">
+            <cell class="weui-cell" title="身份证" value="已绑定" link="/person">
               <img class="icon" src="../../images/icon/id_card.png" slot="icon" alt="">
             </cell>
             <cell class="weui-cell" title="手机号" value="189****6689" link="/phone">
               <img class="icon" src="../../images/icon/phone.png" slot="icon" alt="">
             </cell>
-            <cell class="weui-cell" title="银行卡" value="未绑定" link="/component/radio">
+            <cell class="weui-cell" title="银行卡" value="未绑定" link="/bankCard">
               <img class="icon" src="../../images/icon/bank_card.png" slot="icon" alt="">
             </cell>
             <cell class="weui-cell" title="推广" link="/spread">
@@ -47,14 +47,13 @@
 </template>
 
 <script>
-  import {Card, Scroller, Cell, Group} from 'vux'
+  import {Card, Cell, Group} from 'vux'
   import {mapMutations} from 'vuex'
 
   export default {
     name: 'profile',
     components: {
       Card,
-      Scroller,
       Cell,
       Group
     },

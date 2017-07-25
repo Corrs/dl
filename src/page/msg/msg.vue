@@ -14,7 +14,7 @@
           <img class="system" src="../../images/icon/official.png" slot="icon" v-if="data.isSystemMsg" />
         </a>
         <load-more :tip="tip" v-if="isShowLoading"></load-more>
-
+        <p v-if="!isShowLoading" v-text="tip" class="no-more"></p>
       </div>
     </scroller>
   </div>
@@ -33,8 +33,8 @@
     },
     data() {
       return {
-        bottomCount: 4,
-        total: 40,
+        bottomCount: 20,
+        total: 4,
         msgDatas: [{img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true },
           {img:require('../../images/icon/cash2.png'), typeTitle:'提现助手', datetime:'07-09 22：00', title: '￥580.00', content: '提现申请通过', isSystemMsg: false },
           {img:require('../../images/icon/proxy2.png'), typeTitle:'代理助手', datetime:'07-09 22：00', title: '您有一条代理消息', content: '新增20个代理，20个客户', isSystemMsg: false },
@@ -63,8 +63,11 @@
         } else {
           this.onFetching = true
           setTimeout(() => {
-            if (this.bottomCount + 10 >= this.total) {
+            if (this.bottomCount < this.total &&this.bottomCount + 10 >= this.total) {
               this.bottomCount = this.total;
+            }
+            else if (this.bottomCount >= this.total) {
+              return
             }
             else {
               this.bottomCount += 10
@@ -163,5 +166,10 @@
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+  }
+
+  .no-more {
+    font-size: .7rem;
+    text-align: center;
   }
 </style>

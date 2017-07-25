@@ -91,6 +91,31 @@ a {
   border-top: 1px solid #000 !important;
 }
 
+.weui-actionsheet__cell {
+  font-size: .7rem !important;
+}
+
+.weui-dialog__title {
+  font-size: .8rem !important;
+  font-weight: bold !important;
+}
+
+.weui-dialog__bd {
+  font-size: .7rem !important;
+  text-align: justify !important;
+}
+
+.weui-dialog__ft {
+  font-size: .8rem !important;
+  color: #1C74D9 !important;
+  font-weight: bold;
+}
+
+.weui-dialog__ft a {
+  color: #1C74D9 !important;
+}
+
+
 /*@media (max-width: 320px) {
   html {
     font-size: 20px;

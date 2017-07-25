@@ -51,8 +51,9 @@
           title: '提现',
           backUrl: '/',
           showMsgtip: false,
-          showRight: false,
-          paddingTop: '45px'
+          showRight: true,
+          paddingTop: '45px',
+          rightType: 'question'
         })
       }
     }
