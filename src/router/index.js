@@ -19,8 +19,9 @@ const contact = resolve => require (['@/page/profile/contact'], resolve)
 const rebate = resolve => require (['@/page/profile/rebate'], resolve)
 const proxyLift = resolve => require (['@/page/profile/proxyLift'], resolve)
 const proxy = resolve => require (['@/page/proxy/proxy'], resolve)
-const appendProxy = resolve => require (['@/page/proxy/appendProxy'], resolve)
 const controlProxy = resolve => require (['@/page/proxy/controlProxy'], resolve)
+const offline = resolve => require (['@/page/proxy/offline'], resolve)
+const appendProxy = resolve => require (['@/page/proxy/appendProxy'], resolve)
 export default new Router ({
   mode: 'history',
   routes: [
@@ -110,14 +111,19 @@ export default new Router ({
       component: proxy
     },
     {
-      path: '/appendProxy',
-      name: 'appendProxy',
-      component: appendProxy
-    },
-    {
       path: '/controlProxy',
       name: 'controlProxy',
       component: controlProxy
+    },
+    {
+      path: '/offline',
+      name: 'offline',
+      component: offline
+    },
+    {
+      path: '/appendProxy',
+      name: 'appendProxy',
+      component: appendProxy
     }
   ]
 })

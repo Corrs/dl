@@ -115,6 +115,10 @@ a {
   color: #1C74D9 !important;
 }
 
+.weui-cells {
+  margin-top: .5rem !important;
+}
+
 
 /*@media (max-width: 320px) {
   html {

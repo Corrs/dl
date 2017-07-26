@@ -1,55 +1,60 @@
 <template>
-  <!--业绩排行榜-->
+  <!--下线列表-->
   <div>
-    <div class="search">
-      <group>
-        <x-input placeholder="输入昵称" v-model="search" :show-clear="false">
-          <div slot="right">
-            <a @click="onSearch"><i class="fa fa-search"></i></a>
-          </div>
-        </x-input>
-      </group>
-    </div>
-    <div class="tab">
-      <tab :line-width=2 active-color="#fc378c" v-model="index">
-        <tab-item class="vux-center" @on-item-click="onSearch">
-          <img class="icon" src="../../images/icon/all.png" alt="">全部
-        </tab-item>
-        <tab-item class="vux-center" @on-item-click="onSearch">
-          <img class="icon" src="../../images/icon/one.png" alt="">一代
-        </tab-item>
-        <tab-item class="vux-center" @on-item-click="onSearch">
-          <img class="icon" src="../../images/icon/two.png" alt="">二代
-        </tab-item>
-      </tab>
-    </div>
-    <div class="result">
-      <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
-                :scroll-bottom-offst="200">
+    <div>
+      <div class="search">
         <group>
-          <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index">
-            <div slot="title">
-              <p class="index" v-text="index+1"></p>
-              <p v-text="item.name"></p>
+          <x-input placeholder="输入昵称" v-model="search" :show-clear="false">
+            <div slot="right">
+              <a @click="onSearch"><i class="fa fa-search"></i></a>
             </div>
-            <div slot="value">
-              <span v-text="item.consume"></span>
-            </div>
-          </cell>
+          </x-input>
         </group>
-        <load-more :tip="tip" v-if="isShowLoading"></load-more>
-        <p v-if="!isShowLoading" v-text="tip" class="no-more"></p>
-      </scroller>
+      </div>
+      <div class="tab">
+        <tab :line-width=2 active-color="#fc378c" v-model="index">
+          <tab-item class="vux-center" @on-item-click="onSearch">
+            <img class="icon" src="../../images/icon/all.png" alt="">全部
+          </tab-item>
+          <tab-item class="vux-center" @on-item-click="onSearch">
+            <img class="icon" src="../../images/icon/one.png" alt="">一代
+          </tab-item>
+          <tab-item class="vux-center" @on-item-click="onSearch">
+            <img class="icon" src="../../images/icon/two.png" alt="">二代
+          </tab-item>
+          <tab-item class="vux-center" @on-item-click="onSearch">
+            <img class="icon" src="../../images/icon/normal.png" alt="">普通用户
+          </tab-item>
+        </tab>
+      </div>
+      <div class="result">
+        <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
+                  :scroll-bottom-offst="200">
+          <group>
+            <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index">
+              <div slot="title">
+                <p class="index" v-text="index+1"></p>
+                <p v-text="item.name"></p>
+              </div>
+              <div slot="value">
+                <span v-text="item.consume"></span>
+              </div>
+            </cell>
+          </group>
+          <load-more :tip="tip" v-if="isShowLoading"></load-more>
+          <p v-if="!isShowLoading" v-text="tip" class="no-more"></p>
+        </scroller>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem} from 'vux'
+  import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem, Swiper, SwiperItem} from 'vux'
   import {mapMutations} from 'vuex'
 
   export default {
-    name: 'score',
+    name: 'offline',
     data () {
       return {
         data: [{
@@ -99,7 +104,9 @@
       LoadMore,
       XInput,
       Tab,
-      TabItem
+      TabItem,
+      Swiper,
+      SwiperItem
     },
     computed: {
       formatDatas () {
@@ -129,10 +136,10 @@
       }),
       initHeader () {
         this.updateHeader ({
-          backText: '统计',
+          backText: '代理',
           showBack: true,
-          title: '消费总排行',
-          backUrl: '/Statistics',
+          title: '下线列表',
+          backUrl: '/proxy',
           showMsgtip: false,
           showRight: false,
           paddingTop: '45px'
@@ -205,4 +212,5 @@
     height: 3.5rem;
     margin-top: .5rem;
   }
+
 </style>

@@ -68,7 +68,7 @@
     },
     data() {
       return {
-        msg: '我是你爸爸-区域代理'
+
       }
     },
     mounted() {

@@ -1,6 +1,10 @@
 <template>
   <div style="height:100%;">
-    <loading v-model="isLoading"></loading>
+    <div class="loading">
+      <div v-transfer-dom>
+        <loading v-model="isLoading"></loading>
+      </div>
+    </div>
     <view-box ref="viewBox" :body-padding-top="headerConfig.paddingTop" body-padding-bottom="50px">
       <top-bar slot="header" :backText="headerConfig.backText" :showBack="headerConfig.showBack"
                :title="headerConfig.title" :backUrl="headerConfig.backUrl" :showMsgtip="headerConfig.showMsgtip">
@@ -20,12 +24,15 @@
 </template>
 
 <script>
-  import {ViewBox, Loading } from 'vux'
+  import {ViewBox, Loading, TransferDomDirective as TransferDom } from 'vux'
   import bar from './components/footer/footer.vue'
   import {mapState} from 'vuex'
 
   export default {
     name: 'App',
+    directives: {
+      TransferDom
+    },
     components: {
       bar,
       ViewBox,
@@ -62,4 +69,7 @@
     overflow-x: hidden;
   }
 
+  .loading {
+    z-index: 99999999999999999999;
+  }
 </style>

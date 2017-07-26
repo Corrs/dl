@@ -24,7 +24,7 @@
       </group>
       <p class="tip">直接添加的代理账号，需认证身份证及手机号</p>
       <div class="submit">
-        <x-button mini>提交</x-button>
+        <x-button mini link="/proxy">提交</x-button>
       </div>
     </div>
   </div>
