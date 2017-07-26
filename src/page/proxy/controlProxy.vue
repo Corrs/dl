@@ -194,7 +194,7 @@
 
   .little {
     margin-top: .2rem;
-    font-size: .4rem;
+    font-size: .6rem;
   }
 
   img {
