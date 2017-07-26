@@ -1,15 +1,41 @@
 <template>
   <div>
-    <div>
+    <div v-if="show">
       <group>
         <cell class="weui-cell" title="手机号" value="189****6689"></cell>
       </group>
       <div class="btn">
-        <x-button>更换手机号</x-button>
+        <a @click="show=!show">
+          <x-button>更换手机号</x-button>
+        </a>
       </div>
-      <div class="text">
-        <p>一个手机号只能绑定一个账号，如需解绑请联系客服；请确保之前绑定手机能够收到短信，若原手机号已无法使用，请联系客服人工解决。</p>
+    </div>
+    <div v-if="!show">
+      <group>
+        <cell title="国家和地区" value="中国大陆" is-link></cell>
+        <group>
+          <x-input title="+86" placeholder="请输入新的手机号码" required v-model="changePhone.no"></x-input>
+        </group>
+        <cell class="weui-cell">
+          <div slot="title">
+            <x-input placeholder="验证码" required v-model="changePhone.code"></x-input>
+          </div>
+          <div slot="default">
+            <a @click="getValidCode">
+              <x-button mini>获取验证码</x-button>
+            </a>
+            <a><i class="fa fa-refresh"></i></a>
+          </div>
+        </cell>
+      </group>
+      <div class="btn">
+        <a @click="show=!show">
+          <x-button>提交</x-button>
+        </a>
       </div>
+    </div>
+    <div class="text">
+      <p>一个手机号只能绑定一个账号，如需解绑请联系客服；请确保之前绑定手机能够收到短信，若原手机号已无法使用，请联系客服人工解决。</p>
     </div>
   </div>
 </template>
@@ -22,7 +48,11 @@
     name: 'phone',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        show: true,
+        changePhone: {
+          no: '',
+          code: ''
+        }
       }
     },
     components: {
@@ -55,6 +85,9 @@
         this.updateShowFotter ({
           isShowFotter: false
         })
+      },
+      getValidCode() {
+        console.log('获取验证码')
       }
     }
   }
@@ -84,4 +117,9 @@
     font-size: .7rem;
     color: #888888;
   }
+
+  i {
+    margin-left: .2rem;
+  }
+
 </style>

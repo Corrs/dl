@@ -31,7 +31,7 @@
         <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
                   :scroll-bottom-offst="200">
           <group>
-            <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index">
+            <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index" link="/user-info">
               <div slot="title">
                 <p class="index" v-text="index+1"></p>
                 <p v-text="item.name"></p>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem, Swiper, SwiperItem} from 'vux'
+  import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem} from 'vux'
   import {mapMutations} from 'vuex'
 
   export default {
@@ -104,9 +104,7 @@
       LoadMore,
       XInput,
       Tab,
-      TabItem,
-      Swiper,
-      SwiperItem
+      TabItem
     },
     computed: {
       formatDatas () {

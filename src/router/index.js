@@ -10,6 +10,7 @@ const msginfo = resolve => require (['@/page/msg/msginfo'], resolve)
 const msg = resolve => require (['@/page/msg/msg'], resolve)
 const profile = resolve => require (['@/page/profile/profile'], resolve)
 const cash = resolve => require (['@/page/profile/cash'], resolve)
+const cashList = resolve => require (['@/page/profile/cashList'], resolve)
 const person = resolve => require (['@/page/profile/person'], resolve)
 const phone = resolve => require (['@/page/profile/phone'], resolve)
 const bankCard = resolve => require (['@/page/profile/bankCard'], resolve)
@@ -22,6 +23,7 @@ const proxy = resolve => require (['@/page/proxy/proxy'], resolve)
 const controlProxy = resolve => require (['@/page/proxy/controlProxy'], resolve)
 const offline = resolve => require (['@/page/proxy/offline'], resolve)
 const appendProxy = resolve => require (['@/page/proxy/appendProxy'], resolve)
+const userInfo = resolve => require (['@/page/proxy/userInfo'], resolve)
 export default new Router ({
   mode: 'history',
   routes: [
@@ -64,6 +66,11 @@ export default new Router ({
       path: '/cash',
       name: 'cash',
       component: cash
+    },
+    {
+      path: '/cash-list',
+      name: 'cashList',
+      component: cashList
     },
     {
       path: '/person',
@@ -124,6 +131,11 @@ export default new Router ({
       path: '/appendProxy',
       name: 'appendProxy',
       component: appendProxy
+    },
+    {
+      path: '/user-info',
+      name: 'userInfo',
+      component: userInfo
     }
   ]
 })

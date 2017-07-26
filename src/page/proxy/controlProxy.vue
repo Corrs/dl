@@ -4,7 +4,7 @@
     <div>
       <group>
         <cell class="weui-cell" v-for="(item, index) in datas" :key="index">
-          <div slot="title" class="title">
+          <div slot="title" class="title" @click="$router.push('/user-info')">
             <img src="../../images/person/person.png" alt="">
             <div class="inline">
               <p v-text="item.name + '-' + item.level"></p>
