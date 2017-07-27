@@ -1,4 +1,5 @@
 <template>
+  <!--数据统计-->
   <div>
     <div class="charts">
       <div id="chart" class="chart"></div>
@@ -23,16 +24,13 @@
     </div>
     <div>
       <group>
-        <cell title="数据统计" link="/data-statistics"></cell>
+        <cell title="每日统计" link="/controlProxy"></cell>
       </group>
       <group>
-        <cell title="消费排行" link="/consume"></cell>
+        <cell title="每周统计" link="/consume"></cell>
       </group>
       <group>
-        <cell title="业绩排行" link="/score"></cell>
-      </group>
-      <group>
-        <cell title="房卡购买统计" link="/score"></cell>
+        <cell title="每月统计" link="/score"></cell>
       </group>
     </div>
   </div>
@@ -42,7 +40,7 @@
   import {Group, Card, Cell} from 'vux'
   import {mapMutations} from 'vuex'
   export default {
-    name: 'statustics',
+    name: 'data',
     data() {
       return {
         chartOptions: {
@@ -84,7 +82,7 @@
       }),
       initHeader() {
         this.updateHeader({
-          backText: '返回',
+          backText: '主页',
           showBack: true,
           title: '统计',
           backUrl: '/',
