@@ -23,7 +23,7 @@
     </div>
     <div>
       <group>
-        <cell title="数据统计" link="/data-statistics"></cell>
+        <cell title="数据统计" link="/data-statistics/data"></cell>
       </group>
       <group>
         <cell title="消费排行" link="/consume"></cell>
@@ -32,7 +32,7 @@
         <cell title="业绩排行" link="/score"></cell>
       </group>
       <group>
-        <cell title="房卡购买统计" link="/score"></cell>
+        <cell title="房卡购买统计" link="/data-statistics/room"></cell>
       </group>
     </div>
   </div>

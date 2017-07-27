@@ -72,4 +72,8 @@
   .loading {
     z-index: 99999999999999999999;
   }
+
+  i {
+    font-size: 1rem !important;
+  }
 </style>

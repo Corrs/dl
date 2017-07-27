@@ -248,7 +248,7 @@
   }
 
   p {
-    font-size: .45rem;
+    font-size: .6rem;
     padding: .1rem;
   }
 

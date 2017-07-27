@@ -3,7 +3,7 @@
     <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
               :scroll-bottom-offst="200">
       <div class="box2">
-        <a class="panel" @click="showMsg" v-for="data in msgDatas">
+        <a class="panel" @click="showMsg(data)" v-for="data in msgDatas">
           <img :src="data.img" slot="icon" />
           <div class="content">
             <p class="type-title" v-text="data.typeTitle"></p>
@@ -35,10 +35,10 @@
       return {
         bottomCount: 20,
         total: 4,
-        msgDatas: [{img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true },
-          {img:require('../../images/icon/cash2.png'), typeTitle:'提现助手', datetime:'07-09 22：00', title: '￥580.00', content: '提现申请通过', isSystemMsg: false },
-          {img:require('../../images/icon/proxy2.png'), typeTitle:'代理助手', datetime:'07-09 22：00', title: '您有一条代理消息', content: '新增20个代理，20个客户', isSystemMsg: false },
-          {img:require('../../images/icon/proxy2.png'), typeTitle:'代理助手', datetime:'07-09 22：00', title: '您有一条代理消息', content: '有3个代理可以升级或降级。', isSystemMsg: false }]
+        msgDatas: [{id:1, img:require('../../images/icon/msgtip2.png'), type: 1,  typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true },
+          {id:2, img:require('../../images/icon/cash2.png'), type: 2, typeTitle:'提现助手', datetime:'07-09 22：00', title: '￥580.00', content: '提现申请通过', isSystemMsg: false },
+          {id:3, img:require('../../images/icon/proxy2.png'), type: 3, typeTitle:'代理助手', datetime:'07-09 22：00', title: '您有一条代理消息', content: '新增20个代理，20个客户', isSystemMsg: false },
+          {id:4, img:require('../../images/icon/proxy2.png'), type: 4, typeTitle:'代理助手', datetime:'07-09 22：00', title: '您有一条代理消息', content: '有3个代理可以升级或降级。', isSystemMsg: false }]
       }
     },
     computed: {
@@ -73,16 +73,16 @@
               this.bottomCount += 10
             }
 
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
-            this.msgDatas.push({img:require('../../images/icon/msgtip2.png'), typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
+            this.msgDatas.push({id:1, img:require('../../images/icon/msgtip2.png'), type: 1, typeTitle:'系统通知', datetime:'07-09 22：00', title: '关于代理分成调整的通知', content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。', isSystemMsg: true });
 
 
             this.$nextTick(() => {
@@ -92,9 +92,9 @@
           }, 2000)
         }
       },
-      showMsg() {
+      showMsg(data) {
         console.log('显示消息')
-        this.$router.push('/msginfo')
+        this.$router.push('/msginfo/' + data.id + '/' + data.type)
       },
       ...mapMutations({
         updateHeader: 'UPDATE_HEADER'

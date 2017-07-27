@@ -24,12 +24,34 @@
                @on-cancel="$router.push('/proxy')">
         <p class="confirm-content" v-text="controlModel.content"></p>
       </confirm>
+      <!--<x-dialog v-model="show" :scroll="false" hide-on-blur>
+        <div class="dialog">
+          <div class="dialog-content">
+            <p class="dialog-title">提示</p>
+            <p class="confirm-content">
+              <img src="../../images/icon/call.png" alt="">
+              <span v-text="controlModel.content"></span>
+            </p>
+          </div>
+          <hr>
+          <div class="cancel">
+            <a @click="$router.push('/proxy')">
+              <span>取消</span>
+            </a>
+          </div>
+          <div class="confirm">
+            <a @click="$router.push('/proxy')">
+              <span>提交申请</span>
+            </a>
+          </div>
+        </div>
+      </x-dialog>-->
     </div>
   </div>
 </template>
 
 <script>
-  import {Group, Cell, Scroller, Confirm} from 'vux'
+  import {Group, Cell, Scroller, Confirm, XDialog} from 'vux'
   import {mapMutations} from 'vuex'
 
   export default {
@@ -122,7 +144,8 @@
       Group,
       Cell,
       Scroller,
-      Confirm
+      Confirm,
+      XDialog
     },
     mounted () {
       this.initHeader ()

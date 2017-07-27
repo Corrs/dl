@@ -1,47 +1,47 @@
 <template>
   <div>
     <div style="overflow: hidden">
-        <div class="box2">
-          <div class="card">
-            <card>
-              <div slot="content">
-                <img :src="user.img" alt="">
-                <div>
-                  <span v-text="user.name"></span>
-                  <span class="type" v-text="user.type"></span>
-                </div>
+      <div class="box2">
+        <div class="card">
+          <card>
+            <div slot="content">
+              <img :src="user.img" alt="">
+              <div>
+                <span v-text="user.name"></span>
+                <span class="type" v-text="user.type"></span>
               </div>
-            </card>
-          </div>
-          <group>
-            <cell class="weui-cell" title="可提现余额" value="3125.00元" link="/cash">
-              <img class="icon" src="../../images/icon/cash2.png" slot="icon" alt="">
-            </cell>
-          </group>
-          <group>
-            <cell class="weui-cell" title="身份证" value="已绑定" link="/person">
-              <img class="icon" src="../../images/icon/id_card.png" slot="icon" alt="">
-            </cell>
-            <cell class="weui-cell" title="手机号" value="189****6689" link="/phone">
-              <img class="icon" src="../../images/icon/phone.png" slot="icon" alt="">
-            </cell>
-            <cell class="weui-cell" title="银行卡" value="未绑定" link="/bankCard">
-              <img class="icon" src="../../images/icon/bank_card.png" slot="icon" alt="">
-            </cell>
-            <cell class="weui-cell" title="推广" link="/spread">
-              <img class="icon" src="../../images/icon/qr_code.png" slot="icon" alt="">
-            </cell>
-            <cell class="weui-cell" title="联系客服" link="/contact">
-              <img class="icon" src="../../images/icon/contact.png" slot="icon" alt="">
-            </cell>
-            <cell class="weui-cell" title="佣金规则" link="/rebate">
-              <img class="icon" src="../../images/icon/question.png" slot="icon" alt="">
-            </cell>
-            <cell class="weui-cell" title="代理升降级规则" link="/proxyLift">
-              <img class="icon" src="../../images/icon/question.png" slot="icon" alt="">
-            </cell>
-          </group>
+            </div>
+          </card>
         </div>
+        <group>
+          <cell class="weui-cell" title="可提现余额" value="3125.00元" link="/cash">
+            <img class="icon" src="../../images/icon/cash2.png" slot="icon" alt="">
+          </cell>
+        </group>
+        <group>
+          <cell class="weui-cell" title="身份证" value="已绑定" link="/person">
+            <img class="icon" src="../../images/icon/id_card.png" slot="icon" alt="">
+          </cell>
+          <cell class="weui-cell" title="手机号" value="189****6689" link="/phone">
+            <img class="icon" src="../../images/icon/phone.png" slot="icon" alt="">
+          </cell>
+          <cell class="weui-cell" title="银行卡" value="未绑定" link="/bankCard">
+            <img class="icon" src="../../images/icon/bank_card.png" slot="icon" alt="">
+          </cell>
+          <cell class="weui-cell" title="推广" link="/spread">
+            <img class="icon" src="../../images/icon/qr_code.png" slot="icon" alt="">
+          </cell>
+          <cell class="weui-cell" title="联系客服" link="/contact">
+            <img class="icon" src="../../images/icon/contact.png" slot="icon" alt="">
+          </cell>
+          <cell class="weui-cell" title="佣金规则" link="/rebate">
+            <img class="icon" src="../../images/icon/question.png" slot="icon" alt="">
+          </cell>
+          <cell class="weui-cell" title="代理升降级规则" link="/proxyLift">
+            <img class="icon" src="../../images/icon/question.png" slot="icon" alt="">
+          </cell>
+        </group>
+      </div>
     </div>
   </div>
 </template>
@@ -57,10 +57,10 @@
       Cell,
       Group
     },
-    data() {
+    data () {
       return {
         user: {
-          img: require('../../images/person/person.png'),
+          img: require ('../../images/person/person.png'),
           name: '我是你爸爸',
           type: '区域代理'
         }
@@ -71,15 +71,15 @@
         return (window.document.body.clientHeight - 140) + 'px'
       }*/
     },
-    mounted() {
-      this.initHeader()
+    mounted () {
+      this.initHeader ()
     },
     methods: {
-      ...mapMutations({
+      ...mapMutations ({
         updateHeader: 'UPDATE_HEADER'
       }),
-      initHeader() {
-        this.updateHeader({
+      initHeader () {
+        this.updateHeader ({
           backText: '返回',
           showBack: true,
           title: '',

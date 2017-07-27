@@ -1,36 +1,188 @@
 <template>
   <div class="msginfo">
     <div class="content">
-      <div class="title">
-        <h5>关于代理调整的通知</h5>
+      <!--系统信息详情-->
+      <div v-if="params.type==1">
+        <div class="title">
+          <h5 v-text="system.title"></h5>
+        </div>
+        <div class="info">
+          <span v-text="system.content"></span>
+        </div>
       </div>
-      <div class="info">
-        <span>
-          如果你无法简洁的表达你的想法，那只说明你还不够了解它。
-        </span>
+      <!--提现信息详情-->
+      <div v-else-if="params.type==2">
+        <div class="title">
+          <h5 v-text="cash.title"></h5>
+        </div>
+        <div class="info" @click="$router.push('/cash-list')">
+          <card>
+            <div slot="content" class="cashInfo">
+              <p>
+                <img :src="cash.info.img" alt="">
+              </p>
+              <p>
+                <span v-text="cash.info.bank"></span>
+              </p>
+              <p>
+                <span style="font-size: 1rem; font-weight: bold;" v-text="cash.info.money.toFixed(2)"></span>
+              </p>
+              <p>
+                <span v-text="cash.info.state"></span>
+              </p>
+            </div>
+          </card>
+          <group>
+            <cell title="提现说明" :value="cash.info.remark"></cell>
+            <cell title="提现到" :value="cash.info.bank+'('+cash.info.no.substr(-4)+') '+cash.info.name"></cell>
+            <cell title="提交时间" :value="cash.info.submit"></cell>
+            <cell title="编号" :value="cash.info.id"></cell>
+          </group>
+        </div>
+        <div class="bottom">
+          <a @click="show=!show">
+            <span>对此单有疑问？联系客服</span>
+          </a>
+        </div>
+        <!--<confirm v-model="show"
+                 title="确认拨打电话"
+                 close-on-confirm>
+          <p class="confirm-content">
+            <img src="../../images/icon/call.png" alt="">
+            <span v-text="cash.phone"></span>
+          </p>
+        </confirm>-->
+        <x-dialog v-model="show" :scroll="false" hide-on-blur>
+          <div class="dialog">
+            <div class="dialog-content">
+              <p class="dialog-title">确认拨打电话</p>
+              <p class="confirm-content">
+                <img src="../../images/icon/call.png" alt="">
+                <span v-text="cash.phone"></span>
+              </p>
+            </div>
+            <hr>
+            <div class="cancel">
+              <a @click="show=!show">
+                <span>取消</span>
+              </a>
+            </div>
+            <div class="confirm">
+              <a :href="'tel://'+cash.phone">
+                <span>确定</span>
+              </a>
+            </div>
+          </div>
+        </x-dialog>
+      </div>
+      <!--新增用户信息详情-->
+      <div v-else-if="params.type==3">
+        <div class="title">
+          <h5 v-text="newProxy.title"></h5>
+        </div>
+        <div class="info">
+          <group>
+            <cell title="一级代理新增" :value="newProxy.f_proxy"></cell>
+            <cell title="二级代理新增" :value="newProxy.s_proxy"></cell>
+            <cell title="普通用户新增" :value="newProxy.n_user"></cell>
+          </group>
+        </div>
+        <div class="bottom">
+          <a @click="$router.push('/offline')">
+            <span>去看看</span>
+          </a>
+        </div>
+      </div>
+      <!--可升降级代理信息详情-->
+      <div v-else>
+        <div class="title">
+          <h5 v-text="controlProxy.title"></h5>
+        </div>
+        <div class="info">
+          <group>
+            <cell title="可升级一级代理" :value="controlProxy.up_f"></cell>
+            <cell title="可降级一级代理" :value="controlProxy.down_f"></cell>
+            <cell title="可升级二级代理" :value="controlProxy.up_s"></cell>
+            <cell title="可降级二级代理" :value="controlProxy.down_s"></cell>
+          </group>
+        </div>
+        <div class="bottom">
+          <a @click="$router.push('/controlProxy')">
+            <span>去看看</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {Card, Cell, Group, Confirm, XDialog} from 'vux'
   import {mapMutations} from 'vuex'
+
   export default {
     name: 'msginfo',
-    data() {
+    data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        system: {
+          title: '关于代理调整的通知',
+          content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。\n' +
+          '                                                    - - 阿尔伯特·爱因斯坦'
+        },
+        cash: {
+          title: '提现消息',
+          info: {
+            id: '594195621214541236413', // 编号
+            submit: '2017-07-06  22:00',      // 提交时间
+            no: '11111111111111111689',         // 银行卡号
+            bank: '工商银行',       // 开户行
+            state: '未审核',      // 状 态
+            reason: '',     // 原因
+            money: 250,      // 提现金额
+            remark: '余额提现',
+            name: '孙连成',
+            img: ''
+          },
+          phone: '400-008-4444'
+        },
+        newProxy: {
+          title: '',
+          f_proxy: 0,
+          s_proxy: 0,
+          n_user: 0
+        },
+        controlProxy: {
+          title: '',
+          up_f: 0,
+          down_f: 0,
+          up_s: 0,
+          down_s: 0
+        },
+        params: {
+          id: '',
+          type: 1 // 默认系统消息 1系统消息 2提现消息 3新增代理（用户） 4可升降级
+        },
+        show: false
       }
     },
-    mounted() {
-      this.initHeader()
+    components: {
+      Card,
+      Cell,
+      Group,
+      Confirm,
+      XDialog
+    },
+    mounted () {
+      this.params.id = this.$route.params.id
+      this.params.type = this.$route.params.type
+      this.initHeader ()
     },
     methods: {
-      ...mapMutations({
+      ...mapMutations ({
         updateHeader: 'UPDATE_HEADER'
       }),
-      initHeader() {
-        this.updateHeader({
+      initHeader () {
+        this.updateHeader ({
           backText: '消息',
           showBack: true,
           title: '消息详情',
@@ -44,7 +196,11 @@
   }
 </script>
 
-<style>
+<style scoped>
+  * {
+    font-size: .7rem;
+  }
+
   .msginfo {
     height: 100%;
   }
@@ -63,5 +219,79 @@
     margin: .25rem;
     padding: .5rem .4rem;
     font-size: .5rem;
+  }
+
+  .bottom {
+    width: 100%;
+    text-align: center;
+  }
+
+  .bottom span {
+    text-decoration: underline;
+    color: #1c74d9;
+  }
+
+  .cashInfo {
+    padding: .3rem auto;
+  }
+
+  .cashInfo p {
+    text-align: center;
+  }
+
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .confirm-content {
+    text-align: center;
+    padding-top: .3rem
+  }
+
+  .confirm-content img {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .confirm-content span {
+    font-size: 1rem;
+    color: #000;
+  }
+
+  p.dialog-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .cancel {
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    border-right: 1px solid #9A9A9A;
+  }
+
+  .cancel span {
+    color: #9A9A9A;
+  }
+
+  .confirm {
+    text-align: center;
+    line-height: 1.8rem;
+  }
+
+  .confirm span {
+    color: #1c74d9;
+  }
+
+  .dialog-content {
+    height: 4rem;
+  }
+
+  a {
+    display: block;
+    width: 100%;
   }
 </style>

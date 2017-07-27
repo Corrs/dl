@@ -12,7 +12,7 @@
       <div class="msgtip" v-if="showMsgtip">
         <a @click="showMsg">
           <img src="../../images/icon/msgtip.png" slot="icon" >
-          <p>关于代理收益的公告！点此查看详情！</p>
+          <p v-text="msg.title"></p>
         </a>
         <a class="hide-tip" @click.prev="hideMsgTip">&times;</a>
       </div>
@@ -26,6 +26,15 @@
   import { mapMutations, mapState } from 'vuex'
   export default {
     name: 'topbar',
+    data() {
+      return {
+        msg: {
+          title: '关于代理收益的公告！点此查看详情！',
+          id: 1,
+          type: 1
+        }
+      }
+    },
     directives: {
       TransferDom
     },
@@ -47,7 +56,7 @@
       },
       showMsg() {
         console.log('显示消息')
-        this.$router.push('/msginfo')
+        this.$router.push('/msginfo/' + this.msg.id + '/' + this.msg.type)
       },
       hideMsgTip() {
         this.updateHeader({

@@ -17,7 +17,7 @@
           <div slot="title">
             <span class="label">上线代理</span>
             <span class="btn">
-              <x-button mini>更换</x-button>
+              <x-button mini :disabled="proxyModel.level==1">更换</x-button>
             </span>
           </div>
         </cell>
@@ -76,7 +76,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   * {
     font-size: .7rem;
     color: #000000;

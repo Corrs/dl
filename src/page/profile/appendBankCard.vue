@@ -81,4 +81,8 @@
     margin-top: .5rem;
   }
 
+  i {
+    font-size: 1rem !important;
+  }
+
 </style>

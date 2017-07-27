@@ -5,6 +5,7 @@ Vue.use (Router)
 const Home = resolve => require (['@/page/home/home'], resolve)
 const Statistics = resolve => require (['@/page/statistics/statistics'], resolve)
 const data = resolve => require (['@/page/statistics/data'], resolve) // 数据统计
+const dataInfo = resolve => require (['@/page/statistics/dataInfo'], resolve) // 数据统计
 const consume = resolve => require (['@/page/statistics/consume'], resolve)
 const score = resolve => require (['@/page/statistics/score'], resolve)
 const msginfo = resolve => require (['@/page/msg/msginfo'], resolve)
@@ -39,9 +40,14 @@ export default new Router ({
       component: Statistics
     },
     {
-      path: '/data-statistics',
+      path: '/data-statistics/:type',
       name: 'data-statistics',
       component: data
+    },
+    {
+      path: '/data-info/:type/:date',
+      name: 'dataInfo',
+      component: dataInfo
     },
     {
       path: '/consume',
@@ -59,7 +65,7 @@ export default new Router ({
       component: msg
     },
     {
-      path: '/msginfo',
+      path: '/msginfo/:id/:type',
       name: 'msginfo',
       component: msginfo
     },

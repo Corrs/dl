@@ -1,6 +1,10 @@
 <template>
   <!--数据统计-->
   <div>
+    <div class="panel">
+      <p>累计总消费</p>
+      <h4 v-text="consume"></h4>
+    </div>
     <div class="charts">
       <div id="chart" class="chart"></div>
     </div>
@@ -12,11 +16,11 @@
             <span>7天消费</span>
           </div>
           <div class="content border-r">
-            <span v-text="data.a_count"></span>
+            <span v-text="data.d_most"></span>
             <span>单日最高</span>
           </div>
           <div class="content">
-            <span v-text="data.f_count"></span>
+            <span v-text="data.d_count"></span>
             <span>日均</span>
           </div>
         </div>
@@ -24,13 +28,13 @@
     </div>
     <div>
       <group>
-        <cell title="每日统计" link="/controlProxy"></cell>
+        <cell title="每日统计" :link="'/data-info/'+type+'/day'"></cell>
       </group>
       <group>
-        <cell title="每周统计" link="/consume"></cell>
+        <cell title="每周统计" :link="'/data-info/'+type+'/week'"></cell>
       </group>
       <group>
-        <cell title="每月统计" link="/score"></cell>
+        <cell title="每月统计" :link="'/data-info/'+type+'/month'"></cell>
       </group>
     </div>
   </div>
@@ -59,12 +63,12 @@
           }]
         },
         data: {
-          n_count: 0, // 新增用户数  new user
-          a_count: 0, // 活跃用户数  active user
-          f_count: 0, // 新增一级代理数
-          s_count: 0, // 新增二级代理数
-          c_count: 26 // 可升降级代理数
-        }
+          consume: 0, // 总消费
+          n_count: 0, // n天消费
+          d_most: 0, // 单日最高
+          d_count: 0 // 日均
+        },
+        type: 'data' // 类型 data or room  数据统计 或 房卡购买统计
       }
     },
     components: {
@@ -72,7 +76,13 @@
       Card,
       Cell
     },
+    computed: {
+      consume() {
+        return this.type == 'data' ? this.data.consume.toFixed(2) : this.data.consume + '张'
+      }
+    },
     mounted () {
+      this.type = this.$route.params.type
       this.initHeader ()
       this.initChart ()
     },
@@ -81,10 +91,11 @@
         updateHeader: 'UPDATE_HEADER'
       }),
       initHeader() {
+        let title = this.type == 'data' ? '统计' : '房卡统计'
         this.updateHeader({
           backText: '主页',
           showBack: true,
-          title: '统计',
+          title: title,
           backUrl: '/',
           showMsgtip: false,
           showRight: false,
@@ -161,5 +172,19 @@
 
   .border-b {
     border-bottom: 1px solid #000000;
+  }
+
+  .panel {
+    background: #EA5147;
+    text-align: center;
+    margin-bottom: .5rem;
+  }
+
+  .panel p {
+    font-weight: lighter;
+  }
+
+  .panel h4 {
+    color: #FFFFFF;
   }
 </style>
