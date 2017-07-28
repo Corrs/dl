@@ -5,7 +5,7 @@
       <div class="panel">
         <div v-if="type=='data'">
           <p>消费金额（元）</p>
-          <h4 v-text="data.consume.toFixed(2)"></h4>
+          <h4 v-text="data.consume"></h4>
         </div>
         <div v-else>
           <p>消费数量</p>
@@ -16,21 +16,21 @@
         <div class="left"><span v-text="dateTip+':'"></span></div>
         <div class="right" v-if="date=='day'">
           <div>
-            <datetime v-model="start" :readonly="false" @on-change="change"></datetime>
+            <datetime v-model="startDate" :readonly="false" @on-change="change"></datetime>
           </div>
         </div>
         <div class="right" v-else-if="date=='week'">
           <div>
-            <datetime v-model="start" :readonly="false" @on-change="change"></datetime>
+            <datetime v-model="startDate" :readonly="false" @on-change="change"></datetime>
           </div>
 
           <div>
-            <datetime v-model="end" :readonly="false" @on-change="change"></datetime>
+            <datetime v-model="endDate" :readonly="false" @on-change="change"></datetime>
           </div>
         </div>
         <div class="right" v-else>
           <div>
-            <datetime format="YYYY-MM" v-model="start" :readonly="false" @on-change="change"></datetime>
+            <datetime format="YYYY-MM" v-model="startDate" :readonly="false" @on-change="change"></datetime>
           </div>
         </div>
       </div>
@@ -121,38 +121,18 @@
 </template>
 
 <script>
-  import {Group, Card, Cell, Datetime, XTable} from 'vux'
+  import {Group, Card, Cell, Datetime, XTable, dateFormat} from 'vux'
   import {mapMutations} from 'vuex'
+  import {roomData, data} from '@/mock/statistics'
 
   export default {
     name: 'data-info',
     data () {
       return {
-        data: {
-          consume: 8668, // 累计消费金额
-          down_consume: 9999, // 下线累计消费金额
-          total: 3125, // 累计提现金额
-          brokerage: 7000,   // 累计佣金金额
-          user_no: 1, // 新增用户数
-          consume_no: 0, // 消费人数
-          f_no: 0, // 新增一级代理数
-          s_no: 0, // 新增二级代理数
-          n_u_no: 0, // 新增用户消费率
-          o_u_no: 0, // 老用户消费率
-          n_a_no: 0, // 新用户活跃度
-          o_a_no: 0, // 老用户活跃度
-          o_s_no: 0, // 老用户留存率
-          r_no: 0 // 房卡购买总数
-        },
-        room: {
-          consume: 0,
-          direct: 0,
-          proxy: 500,
-          f_proxy: 300,
-          s_proxy: 200
-        },
-        start: '2020-07-23',
-        end: '2017-07-09',
+        data: {},
+        room: {},
+        startDate: null,
+        endDate: null,
         type: 'data',
         date: 'day'
       }
@@ -179,9 +159,10 @@
     mounted () {
       this.type = this.$route.params.type
       this.date = this.$route.params.date
-      console.log (this.$route.params.type, this.$route.params.date)
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
+      this.setDate ()
     },
     methods: {
       ...mapMutations ({
@@ -217,7 +198,43 @@
         })
       },
       change (value) {
+        console.log(value)
+        this.queryData()
+      },
+      queryData () {
+        let url = this.type == 'data' ? 'http://data.cn' : 'http://room.cn'
+        this.$axios.get (url).then (response => {
+          this.data = this.room = response.data
+        }).catch (error => {
 
+        })
+      },
+      setDate () {
+        switch (this.date) {
+          case 'day':
+            this.startDate = dateFormat (new Date (), 'YYYY-MM-DD')
+            break
+          case 'week':
+            this.getWeek()
+            break
+          case 'month':
+            this.startDate = dateFormat (new Date (), 'YYYY-MM')
+            break
+        }
+      },
+      getWeek () {
+        let now = new Date ();
+        let nowTime = now.getTime ();
+        let day = now.getDay ();
+        let oneDayLong = 24 * 60 * 60 * 1000;
+
+
+        let MondayTime = nowTime - (day - 1) * oneDayLong;
+        let SundayTime = nowTime + (7 - day) * oneDayLong;
+
+
+        this.startDate = dateFormat (new Date (MondayTime), 'YYYY-MM-DD');
+        this.endDate = dateFormat (new Date (SundayTime), 'YYYY-MM-DD');
       }
     }
   }

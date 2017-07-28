@@ -27,7 +27,7 @@
       <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
                 :scroll-bottom-offst="200">
         <group>
-          <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index">
+          <cell class="weui-cell" v-for="(item, index) in datas" :key="index">
             <div slot="title">
               <p class="index" v-text="index+1"></p>
               <p v-text="item.name"></p>
@@ -47,45 +47,13 @@
 <script>
   import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem} from 'vux'
   import {mapMutations} from 'vuex'
+  import {consume} from '@/mock/statistics'
 
   export default {
     name: 'score',
     data () {
       return {
-        data: [{
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }, {
-          name: '周恩来',
-          consume: 0
-        }, {
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }, {
-          name: '周恩来',
-          consume: 0
-        }, {
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }, {
-          name: '周恩来',
-          consume: 0
-        }, {
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }],
+        datas: [],
         bottomCount: 20,
         total: 11,
         search: '',
@@ -102,12 +70,6 @@
       TabItem
     },
     computed: {
-      formatDatas () {
-        return this.data.map (function (currentValue, index, array) {
-          currentValue.consume = currentValue.consume.toFixed (2)
-          return currentValue
-        })
-      },
       height () {
         return (window.document.body.clientHeight - 160) + 'px'
       },
@@ -121,6 +83,7 @@
     mounted () {
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
@@ -131,7 +94,7 @@
         this.updateHeader ({
           backText: '统计',
           showBack: true,
-          title: '消费总排行',
+          title: '业绩排行榜',
           backUrl: '/Statistics',
           showMsgtip: false,
           showRight: false,
@@ -148,26 +111,32 @@
           // do nothing
         } else {
           this.onFetching = true
-          setTimeout (() => {
-            if (this.bottomCount < this.total && this.bottomCount + 10 >= this.total) {
-              this.bottomCount = this.total;
-            }
-            else if (this.bottomCount >= this.total) {
-              return
-            }
-            else {
-              this.bottomCount += 10
-            }
+          this.$nextTick (() => {
+            this.$refs.scroller.reset ()
+          })
+          if (this.bottomCount < this.total && this.bottomCount + 10 >= this.total) {
+            this.bottomCount = this.total;
+          }
+          else if (this.bottomCount >= this.total) {
+            return
+          }
+          else {
+            this.bottomCount += 10
+          }
 
-            this.$nextTick (() => {
-              this.$refs.scroller.reset ()
-            })
-            this.onFetching = false
-          }, 2000)
+          this.queryData ()
+          this.onFetching = false
         }
       },
       onSearch () {
-        console.log (this.search, this.index)
+        this.queryData ()
+      },
+      queryData () {
+        this.$axios.get ('http://consume.cn').then (response => {
+          this.datas = response.data.datas
+        }).catch (error => {
+
+        })
       }
     }
   }

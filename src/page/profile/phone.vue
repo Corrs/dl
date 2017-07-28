@@ -2,7 +2,7 @@
   <div>
     <div v-if="show">
       <group>
-        <cell class="weui-cell" title="手机号" value="189****6689"></cell>
+        <cell class="weui-cell" title="手机号" :value="$route.params.no"></cell>
       </group>
       <div class="btn">
         <a @click="show=!show">

@@ -90,7 +90,7 @@ export default new Router ({
       component: person
     },
     {
-      path: '/phone',
+      path: '/phone/:no',
       name: 'phone',
       component: phone
     },

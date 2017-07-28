@@ -153,22 +153,20 @@
           // do nothing
         } else {
           this.onFetching = true
-          setTimeout (() => {
-            if (this.bottomCount < this.total && this.bottomCount + 10 >= this.total) {
-              this.bottomCount = this.total;
-            }
-            else if (this.bottomCount >= this.total) {
-              return
-            }
-            else {
-              this.bottomCount += 10
-            }
+          this.$nextTick (() => {
+            this.$refs.scroller.reset ()
+          })
+          if (this.bottomCount < this.total && this.bottomCount + 10 >= this.total) {
+            this.bottomCount = this.total;
+          }
+          else if (this.bottomCount >= this.total) {
+            return
+          }
+          else {
+            this.bottomCount += 10
+          }
 
-            this.$nextTick (() => {
-              this.$refs.scroller.reset ()
-            })
-            this.onFetching = false
-          }, 2000)
+          this.onFetching = false
         }
       },
       onSearch () {

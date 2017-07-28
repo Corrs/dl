@@ -5,10 +5,10 @@
       <group>
         <cell class="weui-cell" v-for="(item, index) in datas" :key="index">
           <div slot="title" class="title" @click="$router.push('/user-info')">
-            <img src="../../images/person/person.png" alt="">
+            <img :src="item.img" alt="">
             <div class="inline">
-              <p v-text="item.name + '-' + item.level"></p>
-              <p class="little" v-text="'可升级到' + item.up_level"></p>
+              <p v-text="item.name + '-' + item.proxy"></p>
+              <p class="little" v-text="'可升级到' + item.up_proxy"></p>
             </div>
           </div>
           <div slot="default">
@@ -53,89 +53,13 @@
 <script>
   import {Group, Cell, Scroller, Confirm, XDialog} from 'vux'
   import {mapMutations} from 'vuex'
+  import {controlProxy} from '@/mock/proxy'
 
   export default {
     name: 'control-proxy',
     data () {
       return {
-        datas: [
-          {
-            img: '../',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          }, {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          },
-          {
-            img: '',
-            name: '我是你爸爸',
-            level: '二级代理',
-            up_level: '一级代理',
-            down_level: '普通用户'
-          }
-        ],
+        datas: [],
         show: false,
         controlModel: {}
       }
@@ -150,6 +74,7 @@
     mounted () {
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
     }
     ,
     methods: {
@@ -174,17 +99,24 @@
         })
       },
       up (item) {
-        let content = '确定需要将' + item.name + '-' + item.level + '提升到' + item.down_level + '吗？ '
+        let content = '确定需要将' + item.name + '-' + item.proxy + '提升到' + item.up_proxy + '吗？ '
         this.showConfirm (item, content)
       },
       down (item) {
-        let content = '确定需要将' + item.name + '-' + item.level + '降级到' + item.down_level + '吗？ '
+        let content = '确定需要将' + item.name + '-' + item.proxy + '降级到' + item.down_proxy + '吗？ '
         this.showConfirm (item, content)
       },
       showConfirm (item, content) {
         this.show = true
         this.controlModel = item
         this.controlModel.content = content
+      },
+      queryData () {
+        this.$axios.get ('http://controlProxy.cn').then (response => {
+          this.datas = response.data.datas
+        }).catch (error => {
+
+        })
       }
     }
   }
@@ -223,6 +155,7 @@
   img {
     width: 2.5rem;
     height: 2.5rem;
+    border-radius: 5rem;
   }
 
   .title {

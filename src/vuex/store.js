@@ -16,7 +16,8 @@ const state = {
     showRight: false,
     paddingTop: '45px',
     rightType: 'appendProxy'
-  }
+  },
+  user: {}
 }
 export default new Vuex.Store({
   state,
@@ -34,6 +35,9 @@ export default new Vuex.Store({
       for(let key in payload) {
         state.headerConfig[key] = payload[key]
       }
+    },
+    UPDATE_USER (state, payload) {
+      state.user = payload
     }
   }
 })

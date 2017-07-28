@@ -6,6 +6,8 @@ import {sync} from 'vuex-router-sync'
 import FastClick from 'fastclick'
 import router from './router'
 import store from './vuex/store'
+import axios from 'axios'
+import data  from './mock/mock'
 import './style/base.css'
 import './style/font-awesome-4.7.0/css/font-awesome.min.css'
 import topbar from './components/header/header'
@@ -13,6 +15,7 @@ import App from './App'
 import Vuex from 'vuex'
 import echarts from 'echarts'
 
+Vue.prototype.$axios = axios;
 Vue.prototype.$echarts = echarts
 
 Vue.use (Vuex)
@@ -33,25 +36,45 @@ Vue.component ('top-bar', topbar)
 //     ga && ga('send', 'pageview')
 //   }
 // })
-sync(store, router)
+sync (store, router)
 
-router.beforeEach(function (to, from, next) {
-  if (to.path.indexOf ('/msginfo') != -1) {
-    store.commit ('UPDATE_SHOW_FOTTER', {isShowFotter: false})
-  } else {
-    store.commit ('UPDATE_SHOW_FOTTER', {isShowFotter: true})
+router.beforeEach (function (to, from, next) {
+  if (typeof localStorage.user == 'undefined') {
+    axios.get ('http://login.cn').then (response => {
+      console.log (response.data)
+      for (let key in response.data) {
+        localStorage.setItem (key, response.data[key])
+      }
+    }).catch (error => {
+      console.log (error)
+    })
   }
-  store.commit('UPDATE_LOADING', {isLoading: true})
-  next()
+
+  let user = {
+    name: localStorage.getItem('username'),
+    id: localStorage.getItem('userid'),
+    proxy: localStorage.getItem('userproxy'),
+    img: localStorage.getItem('userimg'),
+    code: localStorage.getItem('paperno'),
+    hometown: localStorage.getItem('hometown'),
+    sex: localStorage.getItem('sex'),
+    type: localStorage.getItem('papertype'),
+    end: localStorage.getItem('paperend'),
+    isAttest: true
+  }
+
+  store.commit('UPDATE_SHOW_FOTTER', {isShowFotter: true})
+  store.commit('UPDATE_USER', user)
+  store.commit ('UPDATE_LOADING', {isLoading: true})
+  next ()
 })
 
-router.afterEach(function (to) {
-  store.commit('UPDATE_LOADING', {isLoading: false})
+router.afterEach (function (to) {
+  store.commit ('UPDATE_LOADING', {isLoading: false})
 })
 /* eslint-disable no-new */
 new Vue ({
   store,
   router,
-  render: h => h(App)
-}).
-$mount ('#app-box')
+  render: h => h (App)
+}).$mount ('#app-box')

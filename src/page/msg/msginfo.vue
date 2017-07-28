@@ -19,24 +19,24 @@
           <card>
             <div slot="content" class="cashInfo">
               <p>
-                <img :src="cash.info.img" alt="">
+                <img :src="cash.img" alt="">
               </p>
               <p>
-                <span v-text="cash.info.bank"></span>
+                <span v-text="cash.bank"></span>
               </p>
               <p>
-                <span style="font-size: 1rem; font-weight: bold;" v-text="cash.info.money.toFixed(2)"></span>
+                <span style="font-size: 1rem; font-weight: bold;" v-text="cash.money"></span>
               </p>
               <p>
-                <span v-text="cash.info.state"></span>
+                <span v-text="cash.state"></span>
               </p>
             </div>
           </card>
           <group>
-            <cell title="提现说明" :value="cash.info.remark"></cell>
-            <cell title="提现到" :value="cash.info.bank+'('+cash.info.no.substr(-4)+') '+cash.info.name"></cell>
-            <cell title="提交时间" :value="cash.info.submit"></cell>
-            <cell title="编号" :value="cash.info.id"></cell>
+            <cell title="提现说明" :value="cash.remark"></cell>
+            <cell title="提现到" :value="cash.bank+'('+cash.no+') '+cash.name"></cell>
+            <cell title="提交时间" :value="cash.submit"></cell>
+            <cell title="编号" :value="cash.id"></cell>
           </group>
         </div>
         <div class="bottom">
@@ -119,45 +119,16 @@
 <script>
   import {Card, Cell, Group, Confirm, XDialog} from 'vux'
   import {mapMutations} from 'vuex'
+  import {cashmsg, controlProxyMsg, newProxyMsg, systemMsg} from '@/mock/msg'
 
   export default {
     name: 'msginfo',
     data () {
       return {
-        system: {
-          title: '关于代理调整的通知',
-          content: '如果你无法简洁的表达你的想法，那只说明你还不够了解它。\n' +
-          '                                                    - - 阿尔伯特·爱因斯坦'
-        },
-        cash: {
-          title: '提现消息',
-          info: {
-            id: '594195621214541236413', // 编号
-            submit: '2017-07-06  22:00',      // 提交时间
-            no: '11111111111111111689',         // 银行卡号
-            bank: '工商银行',       // 开户行
-            state: '未审核',      // 状 态
-            reason: '',     // 原因
-            money: 250,      // 提现金额
-            remark: '余额提现',
-            name: '孙连成',
-            img: ''
-          },
-          phone: '400-008-4444'
-        },
-        newProxy: {
-          title: '',
-          f_proxy: 0,
-          s_proxy: 0,
-          n_user: 0
-        },
-        controlProxy: {
-          title: '',
-          up_f: 0,
-          down_f: 0,
-          up_s: 0,
-          down_s: 0
-        },
+        system: {},
+        cash: {},
+        newProxy: {},
+        controlProxy: {},
         params: {
           id: '',
           type: 1 // 默认系统消息 1系统消息 2提现消息 3新增代理（用户） 4可升降级
@@ -172,14 +143,20 @@
       Confirm,
       XDialog
     },
+    computed: {
+
+    },
     mounted () {
       this.params.id = this.$route.params.id
       this.params.type = this.$route.params.type
       this.initHeader ()
+      this.initFotter ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
-        updateHeader: 'UPDATE_HEADER'
+        updateHeader: 'UPDATE_HEADER',
+        updateShowFotter: 'UPDATE_SHOW_FOTTER'
       }),
       initHeader () {
         this.updateHeader ({
@@ -190,6 +167,25 @@
           showMsgtip: false,
           showRight: false,
           paddingTop: '45px'
+        })
+      },
+      initFotter () {
+        this.updateShowFotter ({
+          isShowFotter: false
+        })
+      },
+      queryData () {
+        let url = 'http://cash-msg.cn'
+        if (this.params.type == 1) {url = 'http://sys-msg.cn'}
+        else if (this.params.type == 2) {url = 'http://cash-msg.cn'}
+        else if (this.params.type == 3) {url = 'http://new-proxy-msg.cn'}
+        else {url = 'http://control-proxy-msg.cn'}
+
+        this.$axios.get (url).then (response => {
+          console.log(response.data)
+          this.system = this.newProxy = this.controlProxy = this.cash = response.data
+        }).catch (error => {
+
         })
       }
     }

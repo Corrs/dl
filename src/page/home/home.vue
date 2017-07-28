@@ -4,22 +4,22 @@
       <card>
         <div slot="content">
           <h4 class="font-black">今日消费金额（元）</h4>
-          <h4>75123.00</h4>
+          <h4 v-text="data.money"></h4>
           <div class="card-demo-flex card-demo-content01">
             <div class="border-1px-r">
               新增用户
               <br/>
-              <span>1130</span>
+              <span v-text="data.n_u_c">1130</span>
             </div>
             <div class="border-1px-r">
               新增一级代理
               <br/>
-              <span>15</span>
+              <span v-text="data.n_f_c">15</span>
             </div>
             <div>
               新增二级代理
               <br/>
-              <span>0</span>
+              <span v-text="data.n_s_c">0</span>
             </div>
           </div>
         </div>
@@ -58,7 +58,9 @@
 
 <script>
   import {Divider, Card, Grid, GridItem} from 'vux'
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapState} from 'vuex'
+  import mock from '@/mock/home'
+
   export default {
     components: {
       Card,
@@ -66,28 +68,41 @@
       Grid,
       GridItem
     },
-    data() {
+    computed: {
+      ...mapState ({
+        user: state => state.user
+      })
+    },
+    data () {
       return {
-        msg: '我是你爸爸-区域代理'
+        data: {}
       }
     },
-    mounted() {
-      this.initHeader()
+    mounted () {
+      this.initHeader ()
+      this.homeData ()
     },
     methods: {
-      ...mapMutations({
+      ...mapMutations ({
         updateHeader: 'UPDATE_HEADER'
       }),
-      initHeader() {
-        this.updateHeader({
+      initHeader () {
+        this.updateHeader ({
           backText: '返回',
           showBack: false,
-          title: this.msg,
+          title: this.user.name + '—' + this.user.proxy,
           backUrl: '/',
           showMsgtip: true,
           showRight: true,
           paddingTop: '80px',
           rightType: 'appendProxy'
+        })
+      },
+      homeData () {
+        this.$axios.get ('http://home.cn').then (response => {
+          this.data = response.data
+        }).catch (error => {
+          console.log ('失败')
         })
       }
     }

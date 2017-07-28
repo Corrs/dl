@@ -59,31 +59,13 @@
 <script>
   import {Card, Group, XImg, Cell, Actionsheet} from 'vux'
   import {mapMutations} from 'vuex'
+  import {bankCard} from '@/mock/profile'
 
   export default {
     name: 'bank-card',
     data () {
       return {
-        datas: [
-          {
-            img: 'http://192.168.233.131:8080/images/person/bank.png',
-            name: '中国工商银行',
-            type: '储蓄卡',
-            no: '11111111111111111689'
-          },
-          {
-            img: './../../images/person/bank.png',
-            name: '中国工商银行',
-            type: '储蓄卡',
-            no: '11111111111111111689'
-          },
-          {
-            img: './../../images/person/bank.png',
-            name: '中国工商银行',
-            type: '储蓄卡',
-            no: '11111111111111111689'
-          }
-        ],
+        datas: [],
         isShowList: true,
         isShowAppend: false,
         isShowUnbind: false,
@@ -112,8 +94,8 @@
     computed: {
       cardItems () {
         return this.datas.map (function (currentValue, index, array) {
-          let i = currentValue.no.length % 4
-          let count = currentValue.no.length / 4
+          let i = parseInt(currentValue.no.length % 4)
+          let count = parseInt(currentValue.no.length / 4)
           let suffix = ''
           if (i == 0) {
             suffix = currentValue.no.substr (-4)
@@ -130,6 +112,7 @@
     mounted () {
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
@@ -166,6 +149,14 @@
           this.isShowUnbind = false
           this.isShowList = true
         }
+      },
+      queryData () {
+        this.$axios.get ('http://bankCard.cn').then (response => {
+          console.log (response)
+          this.datas = response.data.datas
+        }).catch (error => {
+
+        })
       }
     }
   }

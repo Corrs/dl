@@ -9,7 +9,7 @@
     </div>
     <div>
       <div class="card">
-        <img class="person" src="../../images/person/person.png" alt="">
+        <img class="person" :src="person.img" alt="">
         <p v-text="person.name"></p>
         <img class="little" src="../../images/person/person-code.png" alt="">
         <p>
@@ -73,22 +73,12 @@
 
 <script>
   import {Cell, Group, Card, Datetime} from 'vux'
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapState} from 'vuex'
 
   export default {
     name: 'person-code',
     data () {
       return {
-        person: {
-          img: '',
-          name: '孙连成',
-          code: '400012341562345789',
-          hometown: '中国北京',
-          sex: '男',
-          type: '身份证',
-          end: '2020-07-23',
-          isAttest: true
-        },
         visibility: false
       }
     },
@@ -97,6 +87,11 @@
       Group,
       Card,
       Datetime
+    },
+    computed: {
+      ...mapState({
+        person: state=>state.user
+      })
     },
     mounted () {
       this.initHeader ()
@@ -155,6 +150,7 @@
   img {
     width: 3rem;
     height: 3rem;
+    border-radius: 5rem;
   }
 
   .person {
@@ -166,6 +162,7 @@
   .little {
     width: 2rem;
     height: 1.5rem;
+    border-radius: 0;
   }
 
   .rz {

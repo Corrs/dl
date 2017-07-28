@@ -4,11 +4,11 @@
     <div v-if="show">
       <div class="panel">
         <p>累计提现金额（元）</p>
-        <h4 v-text="data.total.toFixed(2)"></h4>
+        <h4 v-text="data.total"></h4>
       </div>
       <div class="panel">
         <p>可用提现余额</p>
-        <h4 v-text="data.over.toFixed(2)"></h4>
+        <h4 v-text="data.cash"></h4>
       </div>
       <div class="w-panel">
         <p><a @click="show=!show">申请提现</a></p>
@@ -39,8 +39,8 @@
         <group title="提现金额">
           <x-input title="￥" v-model.trim="cash"></x-input>
         </group>
-        <cell class="weui-cell" :title="'可提现余额 ' + data.over + '元'">
-          <div slot="default"><a @click="cash=data.over"><span style="color: #1c74d9">全部提现</span></a></div>
+        <cell class="weui-cell" :title="'可提现余额 ' + data.cash + '元'">
+          <div slot="default"><a @click="cash=data.cash"><span style="color: #1c74d9">全部提现</span></a></div>
         </cell>
       </group>
       <div class="text" v-if="showTip">
@@ -58,22 +58,15 @@
 <script>
   import {Cell, Group, XInput, XButton} from 'vux'
   import {mapMutations} from 'vuex'
+  import {cash} from '@/mock/profile'
 
   export default {
     name: 'cash',
     data () {
       return {
         show: true,
-        data: {
-          total: 3125, // 累计提现金额
-          over: 7000   // 可用提现余额
-        },
-        card: {
-          bank: '中国工商银行', // 开户行
-          no: '1111111111111111689',   // 卡号
-          type: '储蓄卡', // 卡类型
-          img: '..'   // 银行logo
-        },
+        data: {},
+        card: {},
         cash: 0
       }
     },
@@ -84,12 +77,13 @@
       XButton
     },
     computed: {
-      showTip() {
+      showTip () {
         return this.cash == 0 || this.cash == ''
       }
     },
     mounted () {
       this.initHeader ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
@@ -105,6 +99,15 @@
           showRight: true,
           paddingTop: '45px',
           rightType: 'question'
+        })
+      },
+      queryData () {
+        this.$axios.get ('http://cash.cn').then (response => {
+          console.log (response)
+          this.data = response.data.data
+          this.card = response.data.card
+        }).catch (error => {
+
         })
       }
     }

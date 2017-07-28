@@ -7,7 +7,7 @@
             <span>推广码</span>
           </div>
           <div slot="default">
-            <span>91013</span>
+            <span v-text="data.code">91013</span>
           </div>
         </cell>
       </group>
@@ -17,7 +17,7 @@
             <span>推广链接</span>
           </div>
           <div slot="inline-desc" class="inline-desc">
-            <span>http://www.baidu.com/code/woshinibaba</span>
+            <span v-text="data.url">http://www.baidu.com/code/woshinibaba</span>
           </div>
         </cell>
       </group>
@@ -27,7 +27,7 @@
             <span>推广二维码</span>
           </div>
           <div slot="inline-desc" class="inline-desc">
-            <img src="../../images/person/qr_code2.png">
+            <img :src="data.img">
           </div>
           <div slot="default">
             <span>长按复制</span>
@@ -39,13 +39,15 @@
 </template>
 
 <script>
-  import {Group, Cell } from 'vux'
+  import {Group, Cell} from 'vux'
   import {mapMutations} from 'vuex'
+  import {spread} from '@/mock/profile'
+
   export default {
     name: 'spread',
     data () {
       return {
-
+        data: {}
       }
     },
     components: {
@@ -55,6 +57,7 @@
     mounted () {
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
@@ -75,6 +78,13 @@
       initFotter () {
         this.updateShowFotter ({
           isShowFotter: false
+        })
+      },
+      queryData () {
+        this.$axios.get ('http://spread.cn').then (response => {
+          this.data = response.data
+        }).catch (error => {
+
         })
       }
     }
