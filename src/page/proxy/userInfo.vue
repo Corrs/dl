@@ -19,15 +19,15 @@
         <h4 v-text="data.total"></h4>
       </div>
       <div class="default">
-        <div style="width: 10%; padding-left: .2rem"><span>时间:</span></div>
-        <div>
-          <datetime v-model="start" :readonly="false" @on-change="change"></datetime>
-        </div>
-        <div>
-          <span>至</span>
-        </div>
-        <div>
-          <datetime v-model="end" :readonly="false" @on-change="change"></datetime>
+        <div class="left"><span>时间</span></div>
+        <div class="right">
+          <div>
+            <datetime v-model="start" :readonly="false" @on-change="change"></datetime>
+          </div>
+
+          <div>
+            <datetime v-model="end" :readonly="false" @on-change="change"></datetime>
+          </div>
         </div>
       </div>
 
@@ -228,11 +228,20 @@
     display: inline-block;
   }
 
+  .default .left {
+    padding-left: .2rem;
+  }
+
+  .default .right {
+    float: right;
+  }
+
   .default span {
     display: inline-block;
     height: 2rem;
     line-height: 2rem;
   }
+
 
   td {
     width: 50%;
