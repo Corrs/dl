@@ -51,4 +51,9 @@ let spread = Mock.mock ('http://spread.cn', {
   'img': '@img'
 })
 
-export {profile, bankCard, cash, spread}
+
+let validCode = Mock.mock ('http://valid-code.cn', {
+  'code': /^\d{5}$/   // 随即5位数验证码
+})
+
+export {profile, bankCard, cash, spread, validCode}

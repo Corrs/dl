@@ -21,10 +21,8 @@
             <x-input placeholder="验证码" required v-model="changePhone.code"></x-input>
           </div>
           <div slot="default">
-            <a @click="getValidCode">
-              <x-button mini>获取验证码</x-button>
-            </a>
-            <a><i class="fa fa-refresh"></i></a>
+            <x-button @click.native="getValidCode" mini>获取验证码</x-button>
+            <a @click="getValidCode"><i class="fa fa-refresh"></i></a>
           </div>
         </cell>
       </group>
@@ -43,6 +41,7 @@
 <script>
   import {XInput, Group, Cell, XButton} from 'vux'
   import {mapMutations} from 'vuex'
+  import {validCode} from '@/mock/profile'
 
   export default {
     name: 'phone',
@@ -52,7 +51,8 @@
         changePhone: {
           no: '',
           code: ''
-        }
+        },
+        validCode: ''
       }
     },
     components: {
@@ -87,7 +87,12 @@
         })
       },
       getValidCode() {
-        console.log('获取验证码')
+        this.$axios.get('http://valid-code.cn').then(response=>{
+          this.validCode = response.data.code
+          console.log(this.validCode)
+        }).catch(error=>{
+
+        })
       }
     }
   }
