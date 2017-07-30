@@ -21,7 +21,7 @@
             <x-input placeholder="验证码" required v-model="changePhone.code"></x-input>
           </div>
           <div slot="default">
-            <x-button @click.native="getValidCode" mini>获取验证码</x-button>
+            <x-button @click.native="getValidCode" mini v-text="validCode==''?'获取验证码':validCode"></x-button>
             <a @click="getValidCode"><i class="fa fa-refresh"></i></a>
           </div>
         </cell>
