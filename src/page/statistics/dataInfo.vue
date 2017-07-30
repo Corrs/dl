@@ -123,7 +123,7 @@
 <script>
   import {Group, Card, Cell, Datetime, XTable, dateFormat} from 'vux'
   import {mapMutations} from 'vuex'
-  import {roomData, data} from '@/mock/statistics'
+  import {roomData, dataInfo} from '@/mock/statistics'
 
   export default {
     name: 'data-info',
@@ -202,7 +202,7 @@
         this.queryData()
       },
       queryData () {
-        let url = this.type == 'data' ? 'http://data.cn' : 'http://room.cn'
+        let url = this.type == 'data' ? 'http://data-info.cn' : 'http://room.cn'
         this.$axios.get (url).then (response => {
           this.data = this.room = response.data
         }).catch (error => {

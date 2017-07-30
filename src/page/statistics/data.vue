@@ -5,15 +5,21 @@
       <p>累计总消费</p>
       <h4 v-text="consume"></h4>
     </div>
-    <div class="charts">
-      <div id="chart" class="chart"></div>
+    <div class="checker">
+      <checker v-model="day" default-item-class="check-item"
+               selected-item-class="check-item-selected">
+        <checker-item :value="item" v-for="(item, index) in category" :key="index">{{item.value}}</checker-item>
+      </checker>
+    </div>
+    <div class="chart">
+      <line-chart :height="160" :chart-data="datacollection" :options="options"></line-chart>
     </div>
     <div class="card">
       <card>
         <div slot="content">
           <div class="content border-r">
             <span v-text="data.n_count"></span>
-            <span>7天消费</span>
+            <span v-text="day.key+'天消费'"></span>
           </div>
           <div class="content border-r">
             <span v-text="data.d_most"></span>
@@ -41,58 +47,82 @@
 </template>
 
 <script>
-  import {Group, Card, Cell} from 'vux'
+  import {Checker, CheckerItem, Group, Card, Cell} from 'vux'
   import {mapMutations} from 'vuex'
+  import LineChart from '@/page/chart/LineChart'
+  import {data, dataChart} from '@/mock/statistics'
+
   export default {
     name: 'data',
-    data() {
+    data () {
       return {
-        chartOptions: {
-          title: [{
-            show: false
-          }],
-          tooltip: {},
-          xAxis: {
-            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        datacollection: null,
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                display: false
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                fontColor: '#F5B7B3',
+                maxRotation: 0
+              },
+              gridLines: {
+                display: true
+              }
+            }]
           },
-          yAxis: {},
-          series: [{
-            name: '销量',
-            type: 'line',
-            data: [5, 20, 36, 10, 10, 20]
-          }]
+          legend: {
+            display: false
+          }
         },
-        data: {
-          consume: 0, // 总消费
-          n_count: 0, // n天消费
-          d_most: 0, // 单日最高
-          d_count: 0 // 日均
+        data: {},
+        type: 'data', // 类型 data or room  数据统计 或 房卡购买统计
+        day: {
+          key: 7,
+          value: '7天'
         },
-        type: 'data' // 类型 data or room  数据统计 或 房卡购买统计
+        category: [{
+          key: 7,
+          value: '7天'
+        }, {
+          key: 30,
+          value: '30天'
+        }, {
+          key: 90,
+          value: '90天'
+        }]
       }
     },
     components: {
+      Checker,
+      CheckerItem,
       Group,
       Card,
-      Cell
+      Cell,
+      LineChart
     },
     computed: {
-      consume() {
-        return this.type == 'data' ? this.data.consume.toFixed(2) : this.data.consume + '张'
+      consume () {
+        let consume = this.data.consume
+        return this.type == 'data' ? (consume ? consume.toFixed (2) : consume) : this.data.consume + '张'
       }
     },
     mounted () {
       this.type = this.$route.params.type
       this.initHeader ()
       this.initChart ()
+      this.queryData ()
     },
     methods: {
-      ...mapMutations({
+      ...mapMutations ({
         updateHeader: 'UPDATE_HEADER'
       }),
-      initHeader() {
+      initHeader () {
         let title = this.type == 'data' ? '统计' : '房卡统计'
-        this.updateHeader({
+        this.updateHeader ({
           backText: '主页',
           showBack: true,
           title: title,
@@ -103,8 +133,41 @@
         })
       },
       initChart () {
-        let chart = this.$echarts.init (document.getElementById ('chart'))
-        chart.setOption (this.chartOptions)
+        let labels = Array (this.day.key)
+        this.$axios.get ('http://data-chart.cn').then (response => {
+          labels[0] = response.data.chartDateStart
+          labels[this.day.key - 1] = response.data.chartDateEnd
+          this.datacollection = {
+            labels: labels,
+            datasets: [
+              {
+                fill: false,
+                data: response.data.datas,
+                borderColor: '#F5B7B3',
+                borderWidth: 2,
+                borderCapStyle: 'square'
+              }
+            ]
+          }
+        }).catch (error => {
+
+        })
+      },
+      getRandomInt () {
+        return Math.floor (Math.random () * (50 - 5 + 1)) + 5
+      },
+      queryData () {
+        this.$axios.get ('http://data.cn').then (response => {
+          this.data = response.data
+        }).catch (error => {
+
+        })
+      }
+    },
+    watch: {
+      day (val) {
+        this.initChart ()
+        this.queryData ()
       }
     }
   }
@@ -115,10 +178,26 @@
     font-size: .7rem;
   }
 
+  .checker {
+    text-align: center;
+    background-color: #EC6C64;
+  }
+
+  .check-item {
+    padding: 5px 15px;
+    color: #F1B4B2;
+  }
+
+  .check-item-selected {
+    color: #FFFFFF;
+  }
+
   .chart {
-    height: 10rem;
-    width: 100%;
-    background-color: #FFFFFF;
+    max-width: 100%;
+    height: 7rem;
+    margin: 0 auto;
+    background-color: #EB655B;
+    padding: 1rem .3rem 0 .3rem;
   }
 
   .card {
@@ -134,11 +213,11 @@
 
   hr.vertical {
     width: 4.5rem;
-    transform:rotate(90deg);
-    -ms-transform:rotate(90deg); 	/* IE 9 */
-    -moz-transform:rotate(90deg); 	/* Firefox */
-    -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
-    -o-transform:rotate(90deg); 	/* Opera */
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -moz-transform: rotate(90deg); /* Firefox */
+    -webkit-transform: rotate(90deg); /* Safari 和 Chrome */
+    -o-transform: rotate(90deg); /* Opera */
   }
 
   .content {
@@ -177,7 +256,7 @@
   .panel {
     background: #EA5147;
     text-align: center;
-    margin-bottom: .5rem;
+    /*margin-bottom: .5rem;*/
   }
 
   .panel p {

@@ -1,21 +1,27 @@
 <template>
   <div>
-    <div class="charts">
-      <div id="chart" class="chart"></div>
+    <div class="checker">
+      <checker v-model="day" default-item-class="check-item"
+               selected-item-class="check-item-selected">
+        <checker-item :value="item" v-for="(item, index) in category" :key="index">{{item.value}}</checker-item>
+      </checker>
+    </div>
+    <div class="chart">
+      <line-chart :height="160" :chart-data="datacollection" :options="options"></line-chart>
     </div>
     <div class="card">
       <card>
         <div slot="content">
           <div class="content border-r">
             <span v-text="data.n_count"></span>
-            <span>7天消费</span>
+            <span v-text="day.key+'天消费'"></span>
           </div>
           <div class="content border-r">
-            <span v-text="data.a_count"></span>
+            <span v-text="data.d_most"></span>
             <span>单日最高</span>
           </div>
           <div class="content">
-            <span v-text="data.f_count"></span>
+            <span v-text="data.d_count"></span>
             <span>日均</span>
           </div>
         </div>
@@ -39,44 +45,66 @@
 </template>
 
 <script>
-  import {Group, Card, Cell} from 'vux'
+  import {Checker, CheckerItem, Group, Card, Cell} from 'vux'
   import {mapMutations} from 'vuex'
+  import LineChart from '@/page/chart/LineChart'
+  import {homeData, homeChart} from '@/mock/statistics'
+
   export default {
     name: 'statustics',
     data() {
       return {
-        chartOptions: {
-          title: [{
-            show: false
-          }],
-          tooltip: {},
-          xAxis: {
-            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        datacollection: null,
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                display: false
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                fontColor: '#F5B7B3',
+                maxRotation: 0
+              },
+              gridLines: {
+                display: true
+              }
+            }]
           },
-          yAxis: {},
-          series: [{
-            name: '销量',
-            type: 'line',
-            data: [5, 20, 36, 10, 10, 20]
-          }]
+          legend: {
+            display: false
+          }
         },
-        data: {
-          n_count: 0, // 新增用户数  new user
-          a_count: 0, // 活跃用户数  active user
-          f_count: 0, // 新增一级代理数
-          s_count: 0, // 新增二级代理数
-          c_count: 26 // 可升降级代理数
-        }
+        data: {},
+        day: {
+          key: 7,
+          value: '7天'
+        },
+        category: [{
+          key: 7,
+          value: '7天'
+        },{
+          key: 30,
+          value: '30天'
+        },{
+          key: 90,
+          value: '90天'
+        }]
       }
     },
     components: {
+      Checker,
+      CheckerItem,
       Group,
       Card,
-      Cell
+      Cell,
+      LineChart
     },
     mounted () {
       this.initHeader ()
       this.initChart ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations({
@@ -94,8 +122,41 @@
         })
       },
       initChart () {
-        let chart = this.$echarts.init (document.getElementById ('chart'))
-        chart.setOption (this.chartOptions)
+        let labels = Array (this.day.key)
+        this.$axios.get ('http://home-chart.cn').then (response => {
+          labels[0] = response.data.chartDateStart
+          labels[this.day.key - 1] = response.data.chartDateEnd
+          this.datacollection = {
+            labels: labels,
+            datasets: [
+              {
+                fill: false,
+                data: response.data.datas,
+                borderColor: '#F5B7B3',
+                borderWidth: 2,
+                borderCapStyle: 'square'
+              }
+            ]
+          }
+        }).catch (error => {
+
+        })
+      },
+      getRandomInt () {
+        return Math.floor (Math.random () * (50 - 5 + 1)) + 5
+      },
+      queryData() {
+        this.$axios.get('http://home-data.cn').then(response=>{
+          this.data = response.data
+        }).catch(error=>{
+
+        })
+      }
+    },
+    watch: {
+      day(val) {
+        this.initChart ()
+        this.queryData ()
       }
     }
   }
@@ -106,10 +167,26 @@
     font-size: .7rem;
   }
 
+  .checker {
+    text-align: center;
+    background-color: #EC6C64;
+  }
+
+  .check-item {
+    padding: 5px 15px;
+    color: #F1B4B2;
+  }
+
+  .check-item-selected {
+    color: #FFFFFF;
+  }
+
   .chart {
-    height: 10rem;
-    width: 100%;
-    background-color: #FFFFFF;
+    max-width: 100%;
+    height: 7rem;
+    margin: 0 auto;
+    background-color: #EB655B;
+    padding: 1rem .3rem 0 .3rem;
   }
 
   .card {

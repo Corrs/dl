@@ -62,8 +62,15 @@
           </div>
         </cell>
         <cell class="weui-cell" title="证件有效期">
-          <div slot="default">
-            <datetime v-model="person.end" :readonly="false" @on-change="change"></datetime>
+          <div slot="default" class="default">
+            <div>
+              <checker v-model="forever" @on-change="change" default-item-class="check-item" selected-item-class="check-item-selected">
+                <checker-item value="1">长期</checker-item>
+              </checker>
+            </div>
+            <div>
+              <datetime v-if="forever!=1" v-model="person.end" :readonly="false" @on-change="change"></datetime>
+            </div>
           </div>
         </cell>
       </group>
@@ -72,21 +79,24 @@
 </template>
 
 <script>
-  import {Cell, Group, Card, Datetime} from 'vux'
+  import {Cell, Group, Card, Datetime, Checker, CheckerItem} from 'vux'
   import {mapMutations, mapState} from 'vuex'
 
   export default {
     name: 'person-code',
     data () {
       return {
-        visibility: false
+        visibility: false,
+        forever: '0'
       }
     },
     components: {
       Cell,
       Group,
       Card,
-      Datetime
+      Datetime,
+      Checker,
+      CheckerItem
     },
     computed: {
       ...mapState({
@@ -100,7 +110,8 @@
     methods: {
       ...mapMutations ({
         updateHeader: 'UPDATE_HEADER',
-        updateShowFotter: 'UPDATE_SHOW_FOTTER'
+        updateShowFotter: 'UPDATE_SHOW_FOTTER',
+        updateUser: 'UPDATE_USER'
       }),
       initHeader () {
         this.updateHeader ({
@@ -119,7 +130,17 @@
         })
       },
       change (value) {
-        this.person.end = value
+
+        if(value == 1) {
+          console.log('长期')
+          this.updateUser({forever: 1, end: ''})
+        } else {
+          this.updateUser({forever: 0})
+          if(value != '') {
+            this.updateUser({end: value})
+          }
+        }
+
         console.log ('证件有效期：', this.person.end)
       }
     }
@@ -181,4 +202,19 @@
   .card:first-child {
     padding-top: 2rem;
   }
+
+  .default div {
+    display: inline-block;
+    height: 100%;
+  }
+
+  .check-item {
+    border: 1px solid #ececec;
+    padding: 5px 15px;
+  }
+
+  .check-item-selected {
+    border: 1px solid green;
+  }
+
 </style>

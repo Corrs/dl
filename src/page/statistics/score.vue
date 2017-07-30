@@ -13,13 +13,16 @@
     <div class="tab">
       <tab :line-width=2 active-color="#fc378c" v-model="index">
         <tab-item class="vux-center" @on-item-click="onSearch">
-          <img class="icon" src="../../images/icon/all.png" alt="">全部
+          <img v-if="index==0" class="icon" src="../../images/icon/all.png" alt="">
+          <img v-else class="icon" src="../../images/icon/all-disable.png" alt="">全部
         </tab-item>
         <tab-item class="vux-center" @on-item-click="onSearch">
-          <img class="icon" src="../../images/icon/one.png" alt="">一代
+          <img v-if="index==1" class="icon" src="../../images/icon/one.png" alt="">
+          <img v-else class="icon" src="../../images/icon/one-disable.png" alt="">一代
         </tab-item>
         <tab-item class="vux-center" @on-item-click="onSearch">
-          <img class="icon" src="../../images/icon/two.png" alt="">二代
+          <img v-if="index==2" class="icon" src="../../images/icon/two.png" alt="">
+          <img v-else class="icon" src="../../images/icon/two-disable.png" alt="">二代
         </tab-item>
       </tab>
     </div>

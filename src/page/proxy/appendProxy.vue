@@ -17,11 +17,39 @@
           <div slot="title">
             <span class="label">上线代理</span>
             <span class="btn">
-              <x-button mini :disabled="proxyModel.level==1">更换</x-button>
+              <x-button v-if="upProxy==null" @click.native="changeProxy" mini :disabled="proxyModel.level==1">更换</x-button>
+              <span v-else>
+                <x-button mini v-text="upProxy.name"></x-button>
+                <a style="width: .5rem; margin-left: .2rem" @click="upProxy=null">X</a>
+              </span>
             </span>
           </div>
         </cell>
       </group>
+      <div v-transfer-dom>
+        <popup v-model="show" position="bottom" max-height="80%">
+          <div class="search">
+            <group>
+              <x-input placeholder="输入昵称" v-model="search" :show-clear="false">
+                <div slot="right">
+                  <a @click="onSearch"><i class="fa fa-search"></i></a>
+                </div>
+              </x-input>
+            </group>
+          </div>
+          <group>
+            <cell class="weui-cell" v-for="(item,index) in datas" :key="index">
+              <div slot="title" class="title" @click="selectProxy(item)">
+                <img :src="item.img" alt="">
+                <div class="inline">
+                  <p v-text="item.name + '-' + item.proxy"></p>
+                  <p class="little" v-text="'可升级到' + item.up_proxy"></p>
+                </div>
+              </div>
+            </cell>
+          </group>
+        </popup>
+      </div>
       <p class="tip">直接添加的代理账号，需认证身份证及手机号</p>
       <div class="submit">
         <x-button mini link="/proxy">提交</x-button>
@@ -31,14 +59,21 @@
 </template>
 
 <script>
-  import {Group, XInput, Selector, Cell, XButton} from 'vux'
+  import {TransferDom, Popup, Group, XInput, Selector, Cell, XButton, XHeader} from 'vux'
   import {mapMutations} from 'vuex'
+  import {controlProxy} from '@/mock/proxy'
 
   export default {
     name: 'apeend-proxy',
+    directives: {
+      TransferDom
+    },
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App',
+        show: false,
+        search: '',
+        datas: [],
+        upProxy: null,
         proxyModel: {
           no: '',
           level: '1',
@@ -48,11 +83,13 @@
       }
     },
     components: {
+      Popup,
       Group,
       XInput,
       Selector,
       Cell,
-      XButton
+      XButton,
+      XHeader
     },
     mounted () {
       this.initHeader ()
@@ -71,6 +108,25 @@
           showRight: false,
           paddingTop: '45px'
         })
+      },
+      onSearch () {
+        this.queryData ()
+      },
+      changeProxy () {
+        this.show = !this.show
+        this.queryData ()
+      },
+      selectProxy(item) {
+        this.show = !this.show
+        this.upProxy = item
+        console.log(this.upProxy)
+      },
+      queryData () {
+        this.$axios.get ('http://controlProxy.cn').then (response => {
+          this.datas = response.data.datas
+        }).catch (error => {
+
+        })
       }
     }
   }
@@ -87,7 +143,7 @@
   }
 
   .btn {
-    padding-left: 2rem;
+    padding-left: 1rem;
   }
 
   .tip {
@@ -101,4 +157,27 @@
     text-align: center;
   }
 
+  .inline {
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    padding-left: .5rem;
+  }
+
+  .little {
+    margin-top: .2rem;
+    font-size: .6rem;
+  }
+
+  img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 5rem;
+  }
+
+  .title {
+    height: 2.5rem;
+    line-height: 1rem;
+    position: relative;
+  }
 </style>

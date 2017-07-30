@@ -70,7 +70,8 @@ export default Mock.mock ('http://login.cn', {
   'hometown': '@region',
   'papertype': '@papertype',
   'paperno': /^\d{18}$/,
-  'paperend': '@date'
+  'paperend': '@date',
+  'forever': /[01]/
 })
 
 

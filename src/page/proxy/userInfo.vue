@@ -4,22 +4,22 @@
     <div>
       <div class="panel">
         <p>累计消费金额（元）</p>
-        <h4 v-text="data.consume.toFixed(2)"></h4>
+        <h4 v-text="data.consume"></h4>
       </div>
       <div class="panel">
         <p>下线累计消费金额（元）</p>
-        <h4 v-text="data.down_consume.toFixed(2)"></h4>
+        <h4 v-text="data.down_consume"></h4>
       </div>
       <div class="panel">
         <p>累计佣金金额（元）</p>
-        <h4 v-text="data.brokerage.toFixed(2)"></h4>
+        <h4 v-text="data.brokerage"></h4>
       </div>
       <div class="panel">
         <p>累计提现金额（元）</p>
-        <h4 v-text="data.total.toFixed(2)"></h4>
+        <h4 v-text="data.total"></h4>
       </div>
       <div class="default">
-        <div style="width: 10%"><span>时间:</span></div>
+        <div style="width: 10%; padding-left: .2rem"><span>时间:</span></div>
         <div>
           <datetime v-model="start" :readonly="false" @on-change="change"></datetime>
         </div>
@@ -112,30 +112,13 @@
 <script>
   import {Group, Card, Cell, Datetime, XTable} from 'vux'
   import {mapMutations} from 'vuex'
+  import {userInfo} from '@/mock/proxy'
 
   export default {
     name: 'user-info',
     data () {
       return {
-        data: {
-          consume: 8668, // 累计消费金额
-          down_consume: 9999, // 下线累计消费金额
-          total: 3125, // 累计提现金额
-          brokerage: 7000,   // 累计佣金金额
-          user_no: 1, // 新增用户数
-          consume_no: 0, // 消费人数
-          f_no: 0, // 新增一级代理数
-          s_no: 0, // 新增二级代理数
-          n_u_no: 0, // 新增用户消费率
-          o_u_no: 0, // 老用户消费率
-          n_a_no: 0, // 新用户活跃度
-          o_a_no: 0, // 老用户活跃度
-          o_s_no: 0, // 老用户留存率
-          d_s_no: 0, // 下线二级代理总人数
-          d_n_no: 0, // 下级普通用户总人数
-          u_i_no: 0, // 上线邀请码
-          r_no: 0 // 房卡购买总数
-        },
+        data: {},
         start: '2020-07-23',
         end: '2017-07-09'
       }
@@ -150,6 +133,7 @@
     mounted () {
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
@@ -173,7 +157,14 @@
         })
       },
       change (value) {
+        this.queryData ()
+      },
+      queryData () {
+        this.$axios.get ('http://userinfo.cn').then (response => {
+          this.data = response.data
+        }).catch (error => {
 
+        })
       }
     }
   }
@@ -232,6 +223,7 @@
     height: 2rem;
     position: relative;
   }
+
   .default div {
     display: inline-block;
   }
@@ -247,7 +239,8 @@
     text-align: left;
     padding-left: .2rem;
   }
-  td>p {
+
+  td > p {
     text-align: left;
     padding-left: .2rem;
     height: 1.5rem;

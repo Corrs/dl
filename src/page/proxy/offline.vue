@@ -14,16 +14,20 @@
       <div class="tab">
         <tab :line-width=2 active-color="#fc378c" v-model="index">
           <tab-item class="vux-center" @on-item-click="onSearch">
-            <img class="icon" src="../../images/icon/all.png" alt="">全部
+            <img v-if="index==0" class="icon" src="../../images/icon/all.png" alt="">
+            <img v-else class="icon" src="../../images/icon/all-disable.png" alt="">全部
           </tab-item>
           <tab-item class="vux-center" @on-item-click="onSearch">
-            <img class="icon" src="../../images/icon/one.png" alt="">一代
+            <img v-if="index==1" class="icon" src="../../images/icon/one.png" alt="">
+            <img v-else class="icon" src="../../images/icon/one-disable.png" alt="">一代
           </tab-item>
           <tab-item class="vux-center" @on-item-click="onSearch">
-            <img class="icon" src="../../images/icon/two.png" alt="">二代
+            <img v-if="index==2" class="icon" src="../../images/icon/two.png" alt="">
+            <img v-else class="icon" src="../../images/icon/two-disable.png" alt="">二代
           </tab-item>
           <tab-item class="vux-center" @on-item-click="onSearch">
-            <img class="icon" src="../../images/icon/normal.png" alt="">普通用户
+            <img v-if="index==3" class="icon" src="../../images/icon/normal.png" alt="">
+            <img v-else class="icon" src="../../images/icon/normal-disable.png" alt="">普通用户
           </tab-item>
         </tab>
       </div>
@@ -31,7 +35,7 @@
         <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
                   :scroll-bottom-offst="200">
           <group>
-            <cell class="weui-cell" v-for="(item, index) in formatDatas" :key="index" link="/user-info">
+            <cell class="weui-cell" v-for="(item, index) in datas" :key="index" link="/user-info">
               <div slot="title">
                 <p class="index" v-text="index+1"></p>
                 <p v-text="item.name"></p>
@@ -52,46 +56,15 @@
 <script>
   import {Cell, Group, Scroller, LoadMore, XInput, Tab, TabItem} from 'vux'
   import {mapMutations} from 'vuex'
+  import {offline} from '@/mock/proxy'
 
   export default {
     name: 'offline',
     data () {
       return {
-        data: [{
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }, {
-          name: '周恩来',
-          consume: 0
-        }, {
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }, {
-          name: '周恩来',
-          consume: 0
-        }, {
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }, {
-          name: '周恩来',
-          consume: 0
-        }, {
-          name: '习近平',
-          consume: 0
-        }, {
-          name: '李克强',
-          consume: 0
-        }],
-        bottomCount: 20,
+        datas: [],
+        pageNo: 1,
+        pageSize: 20,
         total: 11,
         search: '',
         index: 0
@@ -107,25 +80,20 @@
       TabItem
     },
     computed: {
-      formatDatas () {
-        return this.data.map (function (currentValue, index, array) {
-          currentValue.consume = currentValue.consume.toFixed (2)
-          return currentValue
-        })
-      },
       height () {
         return (window.document.body.clientHeight - 160) + 'px'
       },
       isShowLoading () {
-        return this.total > this.bottomCount
+        return this.total > this.pageSize
       },
       tip () {
-        return this.total > this.bottomCount ? '查询更多' : '无其他数据'
+        return this.total > this.pageSize ? '查询更多' : '无其他数据'
       }
     },
     mounted () {
       this.initHeader ()
       this.initFotter ()
+      this.queryData ()
     },
     methods: {
       ...mapMutations ({
@@ -156,21 +124,28 @@
           this.$nextTick (() => {
             this.$refs.scroller.reset ()
           })
-          if (this.bottomCount < this.total && this.bottomCount + 10 >= this.total) {
-            this.bottomCount = this.total;
+          if (this.pageSize < this.total && this.pageSize + 10 >= this.total) {
+            this.pageSize = this.total;
           }
-          else if (this.bottomCount >= this.total) {
+          else if (this.pageSize >= this.total) {
             return
           }
           else {
-            this.bottomCount += 10
+            this.pageSize += 10
           }
 
           this.onFetching = false
         }
       },
       onSearch () {
-        console.log (this.search, this.index)
+        this.queryData ()
+      },
+      queryData () {
+        this.$axios.get ('http://offline.cn').then (response => {
+          this.datas = response.data.datas
+        }).catch (error => {
+
+        })
       }
     }
   }

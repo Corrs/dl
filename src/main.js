@@ -13,11 +13,11 @@ import './style/font-awesome-4.7.0/css/font-awesome.min.css'
 import topbar from './components/header/header'
 import App from './App'
 import Vuex from 'vuex'
-import echarts from 'echarts'
+import VueD3 from 'vue-d3'
 
 Vue.prototype.$axios = axios;
-Vue.prototype.$echarts = echarts
 
+Vue.use (VueD3)
 Vue.use (Vuex)
 Vue.use (VueRouter)
 

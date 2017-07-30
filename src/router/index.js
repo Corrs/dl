@@ -26,6 +26,8 @@ const controlProxy = resolve => require (['@/page/proxy/controlProxy'], resolve)
 const offline = resolve => require (['@/page/proxy/offline'], resolve)
 const appendProxy = resolve => require (['@/page/proxy/appendProxy'], resolve)
 const userInfo = resolve => require (['@/page/proxy/userInfo'], resolve)
+
+const charts = resolve => require (['@/page/chart/VueLineChart'], resolve)
 export default new Router ({
   mode: 'history',
   routes: [
@@ -148,6 +150,11 @@ export default new Router ({
       path: '/user-info',
       name: 'userInfo',
       component: userInfo
+    },
+    {
+      path: '/charts',
+      name: 'charts',
+      component: charts
     }
   ]
 })

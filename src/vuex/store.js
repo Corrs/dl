@@ -37,7 +37,9 @@ export default new Vuex.Store({
       }
     },
     UPDATE_USER (state, payload) {
-      state.user = payload
+      for(let key in payload) {
+        state.user[key] = payload[key]
+      }
     }
   }
 })
