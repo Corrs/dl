@@ -68,7 +68,6 @@
         user: state => state.user
       }),
       formatData() {
-        console.log()
         this.data.phone = '' + this.data.phone
         return this.data
       }

@@ -39,7 +39,7 @@ Vue.component ('top-bar', topbar)
 sync (store, router)
 
 router.beforeEach (function (to, from, next) {
-  if (typeof localStorage.user == 'undefined') {
+  if (typeof localStorage.username == 'undefined') {
     axios.get ('http://login.cn').then (response => {
       console.log (response.data)
       for (let key in response.data) {

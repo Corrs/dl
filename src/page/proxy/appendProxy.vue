@@ -20,7 +20,7 @@
               <x-button v-if="upProxy==null" @click.native="changeProxy" mini :disabled="proxyModel.level==1">更换</x-button>
               <span v-else>
                 <x-button mini v-text="upProxy.name"></x-button>
-                <a style="width: .5rem; margin-left: .2rem" @click="upProxy=null">X</a>
+                <a style="margin-left: .2rem" @click="upProxy=null"><i class="fa fa-remove"></i></a>
               </span>
             </span>
           </div>

@@ -6,9 +6,9 @@
         <div @click="item.show = !item.show">
           <cell class="weui-cell">
             <div slot="title" class="title">
-              <span v-text="item.apply.substr(0, 10)"></span>
+              <span class="time" v-text="item.apply.substr(0, 10)"></span>
               <span v-text="item.money.toFixed(2)"></span>
-              <span v-text="item.state"></span>
+              <span class="state" v-text="item.state"></span>
             </div>
             <div slot="default" class="default">
               <a><span>详情</span></a>
@@ -104,6 +104,14 @@
     width: 30%;
     display: inline-block;
     text-align: center;
+  }
+
+  .title .time {
+    width: 35%;
+  }
+
+  .title .state {
+    width: 25%;
   }
 
   .default span {

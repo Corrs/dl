@@ -28,7 +28,7 @@
     </div>
     <div class="result">
       <scroller lock-x :height="height" @on-scroll-bottom="onScrollBottom" ref="scroller"
-                :scroll-bottom-offst="200">
+                :scroll-bottom-offst="200" :key="index">
         <group>
           <cell class="weui-cell" v-for="(item, index) in datas" :key="index">
             <div slot="title">
@@ -126,6 +126,7 @@
           else {
             this.bottomCount += 10
           }
+
 
           this.queryData ()
           this.onFetching = false

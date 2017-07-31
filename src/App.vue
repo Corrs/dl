@@ -5,7 +5,7 @@
         <loading v-model="isLoading"></loading>
       </div>
     </div>
-    <view-box ref="viewBox" :body-padding-top="headerConfig.paddingTop" body-padding-bottom="50px">
+    <view-box ref="viewBox" :body-padding-top="headerConfig.paddingTop" body-padding-bottom="50px" :key="key">
       <top-bar slot="header" :backText="headerConfig.backText" :showBack="headerConfig.showBack"
                :title="headerConfig.title" :backUrl="headerConfig.backUrl" :showMsgtip="headerConfig.showMsgtip">
         <a slot="rightContent" v-if="headerConfig.showRight">
@@ -17,7 +17,7 @@
       <!--<transition name="vux-pop-in">
         <router-view></router-view>
       </transition>-->
-      <router-view></router-view>
+      <router-view :key="key"></router-view>
       <bar slot="bottom" v-if="isShowFotter"></bar>
     </view-box>
   </div>
@@ -43,7 +43,12 @@
         isShowFotter: state => state.isShowFotter,
         headerConfig: state => state.headerConfig,
         isLoading: state => state.isLoading
-      })
+      }),
+      key() {
+        let now = new Date()
+        console.log(this.$route.path+'-'+now.getTime())
+        return this.$route.path+'-'+now.getTime()
+      }
     },
     methods: {
       appendProxy() {
