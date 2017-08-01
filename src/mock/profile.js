@@ -56,4 +56,4 @@ let validCode = Mock.mock ('http://valid-code.cn', {
   'code': /^\d{5}$/   // 随即5位数验证码
 })
 
-export {profile, bankCard, cash, spread, validCode}
+export {profile, bankCard, cash, spread, validCode, cashList}

@@ -43,6 +43,7 @@
 <script>
   import {Cell, Group, Scroller, LoadMore, Card} from 'vux'
   import {mapMutations} from 'vuex'
+  import {cashList} from '@/mock/profile'
 
   export default {
     name: 'cash-list',
