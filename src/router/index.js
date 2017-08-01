@@ -26,6 +26,8 @@ const controlProxy = resolve => require (['@/page/proxy/controlProxy'], resolve)
 const offline = resolve => require (['@/page/proxy/offline'], resolve)
 const appendProxy = resolve => require (['@/page/proxy/appendProxy'], resolve)
 const userInfo = resolve => require (['@/page/proxy/userInfo'], resolve)
+
+const NotFoundComponent = resolve => require (['@/page/404'], resolve)
 export default new Router ({
   mode: 'history',
   routes: [
@@ -148,6 +150,7 @@ export default new Router ({
       path: '/user-info',
       name: 'userInfo',
       component: userInfo
-    }
+    },
+    {path: '*', component: NotFoundComponent}
   ]
 })
