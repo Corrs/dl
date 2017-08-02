@@ -53,11 +53,15 @@
       </group>
       <actionsheet v-model="isShowAction" :menus="menus" @on-click-menu="click" show-cancel></actionsheet>
     </div>
+    <x-dialog v-model="showValid" :scroll="false" hide-on-blur>
+      <phone-valid ref="phoneValid" @hide="hideValid"></phone-valid>
+    </x-dialog>
   </div>
 </template>
 
 <script>
-  import {Card, Group, XImg, Cell, Actionsheet} from 'vux'
+  import {Card, Group, XImg, Cell, Actionsheet, XDialog} from 'vux'
+  import PhoneValid from '@/components/common/PhoneValid'
   import {mapMutations} from 'vuex'
   import {bankCard} from '@/mock/profile'
 
@@ -70,6 +74,7 @@
         isShowAppend: false,
         isShowUnbind: false,
         isShowAction: false,
+        showValid: false,
         unbindCard: {},
         menus: [
           {
@@ -89,7 +94,9 @@
       Group,
       XImg,
       Cell,
-      Actionsheet
+      Actionsheet,
+      XDialog,
+      PhoneValid
     },
     computed: {
       cardItems () {
@@ -146,8 +153,9 @@
       },
       click (key) {
         if (key == 'unbind') {
-          this.isShowUnbind = false
-          this.isShowList = true
+          this.showValid = !this.showValid
+//          this.isShowUnbind = false
+//          this.isShowList = true
         }
       },
       queryData () {
@@ -157,6 +165,18 @@
         }).catch (error => {
 
         })
+      },
+      hideValid() {
+        this.isShowUnbind = false
+        this.isShowList = true
+        this.showValid = !this.showValid
+      }
+    },
+    watch: {
+      // 监测是否显示手机验证 重置子页面中的dialogShow
+      showValid(value) {
+        this.$refs.phoneValid.dialogShow = false
+        this.$refs.phoneValid.validCode = ''
       }
     }
   }
