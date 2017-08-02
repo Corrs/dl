@@ -68,7 +68,7 @@
       }),
       initHeader () {
         this.updateHeader ({
-          backText: '我的',
+          backText: '返回',
           showBack: true,
           title: '联系客服',
           backUrl: '/profile',

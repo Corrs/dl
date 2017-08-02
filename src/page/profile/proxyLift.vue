@@ -28,7 +28,7 @@
       }),
       initHeader () {
         this.updateHeader ({
-          backText: '我的',
+          backText: '返回',
           showBack: true,
           title: '代理升降级规则',
           backUrl: '/profile',

@@ -72,7 +72,7 @@
       }),
       initHeader () {
         this.updateHeader ({
-          backText: '我的',
+          backText: '返回',
           showBack: true,
           title: '手机号码',
           backUrl: '/profile',
