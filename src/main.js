@@ -7,7 +7,7 @@ import FastClick from 'fastclick'
 import router from './router'
 import store from './vuex/store'
 import axios from 'axios'
-import data  from './mock/mock'
+import {user, system}  from './mock/mock'
 import './style/base.css'
 import './style/font-awesome-4.7.0/css/font-awesome.min.css'
 import topbar from './components/header/header'
@@ -38,6 +38,16 @@ Vue.component ('top-bar', topbar)
 // })
 sync (store, router)
 
+
+axios.get ('http://system.cn').then (response => {
+  let system = {
+    'ch': response.data.ch // 客服电话
+  }
+  store.commit('UPDATE_SYSTEM', system)
+}).catch (error => {
+  console.log (error)
+})
+
 router.beforeEach (function (to, from, next) {
   if (typeof localStorage.username == 'undefined') {
     axios.get ('http://login.cn').then (response => {
@@ -60,6 +70,7 @@ router.beforeEach (function (to, from, next) {
     sex: localStorage.getItem('sex'),
     type: localStorage.getItem('papertype'),
     end: localStorage.getItem('paperend'),
+    phone: localStorage.getItem('phone'),
     isAttest: true
   }
 

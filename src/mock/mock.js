@@ -61,7 +61,7 @@ Random.extend ({
   }
 })
 
-export default Mock.mock ('http://login.cn', {
+let user = Mock.mock ('http://login.cn', {
   'username|1': '@cname',
   'userid|+1': 1,
   'userproxy': '@proxy',
@@ -71,7 +71,14 @@ export default Mock.mock ('http://login.cn', {
   'papertype': '@papertype',
   'paperno': /^\d{18}$/,
   'paperend': '@date',
-  'forever': /[01]/
+  'forever': /[01]/,
+  'phone': /^1[3458][0-9]\d{8}$/
 })
 
+
+let system = Mock.mock ('http://system.cn', {
+  'ch': '400-008-4444' // 客服电话
+})
+
+export {user, system}
 
