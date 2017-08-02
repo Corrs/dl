@@ -23,21 +23,22 @@
     </div>
     <div v-if="!show">
       <group>
-        <cell class="weui-cell" is-link>
-          <div slot="title" class="title">
-            <img :src="card.img" alt="">
-            <div>
-              <p v-text="card.bank"></p>
-              <p>
-                <span v-text="'尾号' + card.no.substr(-4)"></span>
-                <span v-text="card.type"></span>
-              </p>
+        <div class="card-info" @click="showCards=!showCards" >
+          <cell class="weui-cell" is-link>
+            <div slot="title" class="title">
+              <img :src="card.img" alt="">
+              <div>
+                <p v-text="card.bank"></p>
+                <p>
+                  <span v-text="'尾号' + card.no.substr(-4)"></span>
+                  <span v-text="card.type"></span>
+                </p>
+              </div>
             </div>
-          </div>
-        </cell>
-
+          </cell>
+        </div>
         <group title="提现金额">
-          <x-input title="￥" v-model.trim="cash"></x-input>
+          <x-input title="￥" placeholder="输入大于0的提现金额"  v-model="cash" ></x-input>
         </group>
         <cell class="weui-cell" :title="'可提现余额 ' + data.cash + '元'">
           <div slot="default"><a @click="cash=data.cash"><span style="color: #1c74d9">全部提现</span></a></div>
@@ -48,37 +49,106 @@
       </div>
       <div class="btn">
         <a>
-          <x-button>申请提现</x-button>
+          <x-button @click.native="apply">申请提现</x-button>
         </a>
       </div>
+      <x-dialog v-model="showValid" :scroll="false" hide-on-blur>
+        <phone-valid ref="phoneValid" @hide="hideValid"></phone-valid>
+      </x-dialog>
+    </div>
+    <toast v-model="showToast" type="text" :time="800" width="20em" is-show-mask :text="ToastMsg" position="middle"></toast>
+
+    <div v-transfer-dom>
+      <popup v-model="showCards" position="bottom" max-height="80%">
+        <!--<div class="search">
+          <group>
+            <x-input placeholder="输入昵称" v-model="search" :show-clear="false">
+              <div slot="right">
+                <a @click="onSearch"><i class="fa fa-search"></i></a>
+              </div>
+            </x-input>
+          </group>
+        </div>-->
+        <div class="bank-card">
+          <div class="card" @click="selectCard(item)" v-for="(item, index) in cardItems" :key="index">
+            <group>
+              <card>
+                <div slot="content">
+                  <div class="left">
+                    <img :src="item.img" alt="">
+                  </div>
+                  <div class="content">
+                    <p v-text="item.bank"></p>
+                    <p class="type" v-text="item.type"></p>
+                    <p class="no">
+                      <span v-for="i in item.c" :key="i">****</span>
+                      <span class="suffix" v-text="item.suffix"></span>
+                    </p>
+                  </div>
+                </div>
+              </card>
+            </group>
+          </div>
+        </div>
+      </popup>
     </div>
   </div>
 </template>
 
 <script>
-  import {Cell, Group, XInput, XButton} from 'vux'
+  import {TransferDom, Popup, Card, Cell, Group, XInput, XButton, XDialog, Toast} from 'vux'
+  import PhoneValid from '@/components/common/PhoneValid'
   import {mapMutations} from 'vuex'
-  import {cash} from '@/mock/profile'
+  import {cash, bankCard} from '@/mock/profile'
 
   export default {
     name: 'cash',
+    directives: {
+      TransferDom
+    },
     data () {
       return {
         show: true,
+        showValid: false,
+        showCards: false,
         data: {},
         card: {},
-        cash: 0
+        cash: 0,
+        showToast: false,
+        ToastMsg: '',
+        datas: []
       }
     },
     components: {
+      Popup,
+      Card,
       Cell,
       Group,
       XInput,
-      XButton
+      XButton,
+      XDialog,
+      PhoneValid,
+      Toast
     },
     computed: {
       showTip () {
         return this.cash == 0 || this.cash == ''
+      },
+      cardItems () {
+        return this.datas.map (function (currentValue, index, array) {
+          let i = parseInt(currentValue.no.length % 4)
+          let count = parseInt(currentValue.no.length / 4)
+          let suffix = ''
+          if (i == 0) {
+            suffix = currentValue.no.substr (-4)
+            currentValue.c = count - 1;
+          } else {
+            suffix = currentValue.no.substr (0 - i)
+            currentValue.c = count;
+          }
+          currentValue.suffix = suffix
+          return currentValue
+        })
       }
     },
     mounted () {
@@ -109,6 +179,44 @@
         }).catch (error => {
 
         })
+
+        this.$axios.get ('http://bankCard.cn').then (response => {
+          console.log (response)
+          this.datas = response.data.datas
+        }).catch (error => {
+
+        })
+      },
+      apply() {
+        if (!(/^\d+(\.\d{1,2})?$/.test(this.cash)) || this.cash <= 0) {
+          this.showToast = true
+          this.ToastMsg = '提现金额必须为大于0的数字，小数最多保留两位小数'
+          return
+        } else if (this.cash > this.data.cash) {
+          this.showToast = true
+          this.ToastMsg = '提现金额超出余额'
+          return
+        }
+        this.showValid=!this.showValid
+      },
+      hideValid() {
+        this.$router.push('/cash-list')
+        this.showValid=!this.showValid
+      },/*
+      changeCard() {
+        console.log('更改银行卡')
+      },*/
+      selectCard(item) {
+        console.log(item)
+        this.card = item
+        this.showCards = !this.showCards
+      }
+    },
+    watch: {
+      // 监测是否显示手机验证 重置子页面中的dialogShow
+      showValid(value) {
+        this.$refs.phoneValid.dialogShow = false
+        this.$refs.phoneValid.validCode = ''
       }
     }
   }
@@ -181,4 +289,32 @@
     color: #FFFFFF;
     font-size: .7rem;
   }
+
+  .left {
+    height: 4rem;
+    float: left;
+    padding-left: 1rem;
+    padding-right: .5rem;
+  }
+
+  .content {
+    height: 4rem;
+    padding-top: .6rem;
+    padding-left: 3.5rem;
+  }
+
+  p.type {
+    font-size: .6rem;
+    color: #BEBEBE;
+  }
+
+  span {
+    margin-right: .5rem;
+    line-height: 1rem;
+  }
+
+  .suffix {
+    font-size: 1rem;
+  }
+
 </style>
