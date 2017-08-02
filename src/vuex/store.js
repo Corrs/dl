@@ -17,7 +17,8 @@ const state = {
     paddingTop: '45px',
     rightType: 'appendProxy'
   },
-  user: {}
+  user: {},
+  system: {}
 }
 export default new Vuex.Store({
   state,
@@ -39,6 +40,11 @@ export default new Vuex.Store({
     UPDATE_USER (state, payload) {
       for(let key in payload) {
         state.user[key] = payload[key]
+      }
+    },
+    UPDATE_SYSTEM (state, payload) {
+      for(let key in payload) {
+        state.system[key] = payload[key]
       }
     }
   }
