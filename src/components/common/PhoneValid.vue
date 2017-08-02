@@ -3,16 +3,14 @@
     <div v-if="!dialogShow">
       <group>
         <x-input readonly text-align="center" v-model="formatPhone"></x-input>
-        <cell class="weui-cell">
-          <div slot="title">
-            <x-input placeholder="验证码" required v-model="code"></x-input>
-          </div>
-          <div slot="default">
-            <x-button @click.native="getValidCode" mini v-text="validCode==''?'获取验证码':validCode"></x-button>
-          </div>
-        </cell>
+        <div class="left">
+          <x-input placeholder="验证码" required v-model="code"></x-input>
+        </div>
+        <div class="right">
+          <x-button @click.native="getValidCode" mini v-text="validCode==''?'获取验证码':validCode"></x-button>
+        </div>
       </group>
-      <div>
+      <div class="bottom">
         <x-button @click.native="valid" mini>验证</x-button>
         <a @click="dialogShow=!dialogShow">
           <span>收不到验证码？</span>
@@ -171,6 +169,24 @@
   .confirm a,.cancel a {
     display: block;
     width: 100%;
+  }
+
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+    line-height: 2rem;
+  }
+
+  .left, .right {
+    width: 50%;
+  }
+
+  .bottom {
+    margin: .2rem auto;
   }
 
 </style>
