@@ -8,7 +8,7 @@
             <span>客服电话</span>
           </div>
           <div slot="default">
-            <span>400-800-9999</span>
+            <span v-text="system.ch"></span>
           </div>
         </cell>
       </group>
@@ -33,7 +33,7 @@
 
 <script>
   import {XInput, XTextarea, Group, XButton, Cell} from 'vux'
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapState} from 'vuex'
 
   export default {
     name: 'contact',
@@ -51,6 +51,11 @@
       Group,
       XButton,
       Cell
+    },
+    computed: {
+      ...mapState({
+        system: state => state.system
+      })
     },
     mounted () {
       this.initHeader ()

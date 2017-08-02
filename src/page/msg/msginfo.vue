@@ -58,7 +58,7 @@
               <p class="dialog-title">确认拨打电话</p>
               <p class="confirm-content">
                 <img src="../../images/icon/call.png" alt="">
-                <span v-text="cash.phone"></span>
+                <span v-text="systemInfo.ch"></span>
               </p>
             </div>
             <hr>
@@ -68,7 +68,7 @@
               </a>
             </div>
             <div class="confirm">
-              <a :href="'tel://'+cash.phone">
+              <a :href="'tel://'+systemInfo.ch">
                 <span>确定</span>
               </a>
             </div>
@@ -118,7 +118,7 @@
 
 <script>
   import {Card, Cell, Group, Confirm, XDialog} from 'vux'
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapState} from 'vuex'
   import {cashmsg, controlProxyMsg, newProxyMsg, systemMsg} from '@/mock/msg'
 
   export default {
@@ -144,7 +144,9 @@
       XDialog
     },
     computed: {
-
+      ...mapState({
+        systemInfo: state => state.system
+      })
     },
     mounted () {
       this.params.id = this.$route.params.id
