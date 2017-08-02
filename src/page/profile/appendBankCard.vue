@@ -83,6 +83,7 @@
 
   i {
     font-size: 1rem !important;
+    color: #1c74d9 !important;
   }
 
 </style>
