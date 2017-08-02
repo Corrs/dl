@@ -17,35 +17,30 @@
           </div>
         </cell>
       </group>
-      <confirm v-model="show"
+      <!--<confirm v-model="show"
                title="提示"
                confirm-text="提交申请"
                @on-confirm="$router.push('/proxy')"
                @on-cancel="$router.push('/proxy')">
         <p class="confirm-content" v-text="controlModel.content"></p>
-      </confirm>
-      <!--<x-dialog v-model="show" :scroll="false" hide-on-blur>
+      </confirm>-->
+      <x-dialog v-model="show" :scroll="false" hide-on-blur>
         <div class="dialog">
           <div class="dialog-content">
             <p class="dialog-title">提示</p>
             <p class="confirm-content">
-              <img src="../../images/icon/call.png" alt="">
               <span v-text="controlModel.content"></span>
             </p>
           </div>
           <hr>
-          <div class="cancel">
-            <a @click="$router.push('/proxy')">
-              <span>取消</span>
-            </a>
+          <div @click="$router.push('/proxy')" class="cancel">
+            <span>取消</span>
           </div>
-          <div class="confirm">
-            <a @click="$router.push('/proxy')">
-              <span>提交申请</span>
-            </a>
+          <div @click="$router.push('/proxy')" class="confirm">
+            <span>提交申请</span>
           </div>
         </div>
-      </x-dialog>-->
+      </x-dialog>
     </div>
   </div>
 </template>
@@ -167,6 +162,39 @@
   .confirm-content {
     text-align: justify;
     font-size: .7rem;
-    padding: .2rem;
+    padding: .3rem;
+  }
+
+  .dialog span {
+    font-size: .7rem;
+    color: #000;
+    text-decoration: none;
+  }
+
+  p.dialog-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .cancel {
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    border-right: 1px solid #9A9A9A;
+  }
+
+  .cancel span {
+    color: #9A9A9A;
+  }
+
+  .confirm {
+    text-align: center;
+    line-height: 1.8rem;
+  }
+
+  .confirm span {
+    color: #1c74d9;
   }
 </style>
