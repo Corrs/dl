@@ -49,6 +49,7 @@ axios.get ('http://system.cn').then (response => {
 })
 
 router.beforeEach (function (to, from, next) {
+  store.commit ('UPDATE_LOADING', {isLoading: true})
   if (typeof localStorage.username == 'undefined') {
     axios.get ('http://login.cn').then (response => {
       console.log (response.data)
@@ -76,7 +77,6 @@ router.beforeEach (function (to, from, next) {
 
   store.commit('UPDATE_SHOW_FOTTER', {isShowFotter: true})
   store.commit('UPDATE_USER', user)
-  store.commit ('UPDATE_LOADING', {isLoading: true})
   next ()
 })
 
