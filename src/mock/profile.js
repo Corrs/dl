@@ -12,7 +12,7 @@ let profile = Mock.mock ('http://profile.cn', {
 let bankCard = Mock.mock ('http://bankCard.cn', {
   'datas|1-10': [{
     'img': '@img',
-    'name': '@bankname',
+    'bank': '@bankname',
     'type': '@bankcardtype',
     'no': Random.integer (1000000000000000, 9999999999999999999).toString ()
   }]

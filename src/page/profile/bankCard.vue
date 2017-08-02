@@ -7,12 +7,10 @@
           <card>
             <div slot="content">
               <div class="left">
-                <!--<x-img :src="item.img" :webp-src="`${item.img}?type=webp`" @on-success="success" @on-error="error"
-                       class="ximg-demo" error-class="ximg-error" :offset="-100" container="#vux_view_box_body"></x-img>-->
                 <img :src="item.img" alt="">
               </div>
               <div class="content">
-                <p v-text="item.name"></p>
+                <p v-text="item.bank"></p>
                 <p class="type" v-text="item.type"></p>
                 <p class="no">
                   <span v-for="i in item.c" :key="i">****</span>
@@ -34,7 +32,7 @@
               <img :src="unbindCard.img" alt="">
             </div>
             <div class="content">
-              <p v-text="unbindCard.name"></p>
+              <p v-text="unbindCard.bank"></p>
               <p class="type" v-text="unbindCard.type"></p>
               <p class="no">
                 <span v-for="i in unbindCard.c" :key="i">****</span>
